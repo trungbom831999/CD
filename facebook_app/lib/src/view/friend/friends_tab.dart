@@ -8,7 +8,7 @@ import 'package:facebook_app/src/viewmodel/friend_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../profile/profile_friend.dart';
+// import '../profile/profile_friend.dart';
 import 'components/list_friend.dart';
 import 'components/list_friend2.dart';
 
@@ -238,12 +238,12 @@ class _FriendsPageState extends State<FriendsPageTmp>
         children: <Widget>[
           GestureDetector(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        ProfileFriend(friend.userSecond)),
-              );
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //       builder: (context) =>
+              //           ProfileFriend(friend.userSecond)),
+              // );
             },
             child: CircleAvatar(
               backgroundImage: NetworkImage(friend.userSecond.avatar),
@@ -257,12 +257,12 @@ class _FriendsPageState extends State<FriendsPageTmp>
             children: <Widget>[
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            ProfileFriend(friend.userSecond)),
-                  );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //       builder: (context) =>
+                  //           ProfileFriend(friend.userSecond)),
+                  // );
                 },
                 child: Text(
                     friend.userSecond.firstName +
