@@ -1,6 +1,6 @@
+import 'package:facebook_app/src/models/popular_list.dart';
 import 'package:facebook_app/src/view/chat/component/messenger_app_bar/messenger_app_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:facebook_app/src/models/popular_list.dart';
 import 'package:facebook_app/src/view/chat/discovery/widgets/popular_item.dart';
 import 'package:facebook_app/src/view/chat/discovery/widgets/stories_list.dart';
 import 'package:facebook_app/src/view/chat/discovery/widgets/search_bar.dart';

@@ -1,9 +1,9 @@
 import 'package:facebook_app/src/data/model/user.dart';
+import 'package:facebook_app/src/view/profile/profile_friend.dart';
+import 'package:facebook_app/src/view/profile/profile_me.dart';
 import 'package:facebook_app/src/viewmodel/home_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import '../../../profile/profile_me.dart';
-import '../../../profile/profile_friend.dart';
 
 class personSearch extends StatelessWidget {
   final UserEntity friend;
