@@ -2,7 +2,7 @@ import 'package:facebook_app/src/components/black_background_image.dart';
 import 'package:facebook_app/src/components/photo_grid.dart';
 import 'package:facebook_app/src/data/model/post.dart';
 import 'package:facebook_app/src/data/repository/user_repository_impl.dart';
-import 'package:facebook_app/src/view/profile/profile_friend.dart';
+import 'file:///F:/chuyen_de/CD-Team07/facebook_app/lib/src/view/profile/profile_friend.dart';
 import 'package:facebook_app/src/view/profile/profile_me.dart';
 import 'package:facebook_app/src/viewmodel/friend_profile_view_model.dart';
 import 'package:flutter/material.dart';

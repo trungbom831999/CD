@@ -12,7 +12,6 @@ import 'package:provider/provider.dart';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:flutter/cupertino.dart';
-import 'dart:io';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_emoji/flutter_emoji.dart';
