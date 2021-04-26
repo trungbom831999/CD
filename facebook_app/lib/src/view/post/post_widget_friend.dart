@@ -4,7 +4,7 @@ import 'package:facebook_app/src/data/model/post.dart';
 import 'package:facebook_app/src/data/repository/user_repository_impl.dart';
 import 'file:///F:/chuyen_de/CD-Team07/facebook_app/lib/src/view/profile/profile_friend.dart';
 import 'package:facebook_app/src/view/profile/profile_me.dart';
-import 'package:facebook_app/src/viewmodel/profile_view_model.dart';
+import 'package:facebook_app/src/viewmodel/friend_profile_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -12,15 +12,15 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'comment_widget.dart';
-import 'post_detail.dart';
 import 'package:facebook_app/src/ultils/string_ext.dart';
 
-class PostWidgetProfile extends StatelessWidget {
-  final Post post;
-  final ProfileProvide provide;
+import 'comment_widget.dart';
 
-  PostWidgetProfile({this.post, this.provide});
+class PostWidgetFriend extends StatelessWidget {
+  final Post post;
+  final ProfileFriendProvide provide;
+
+  PostWidgetFriend({this.post, this.provide});
 
   @override
   Widget build(BuildContext context) {
@@ -164,7 +164,7 @@ class PostWidgetProfile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Consumer<ProfileProvide>(builder: (key, value, child) {
+                Consumer<ProfileFriendProvide>(builder: (key, value, child) {
                   return FlatButton(
                     onPressed: () => {value.updateLike(post)},
                     padding: EdgeInsets.all(10.0),
