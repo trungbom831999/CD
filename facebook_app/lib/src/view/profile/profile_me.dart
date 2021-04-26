@@ -1,6 +1,7 @@
 import 'package:facebook_app/src/base/base.dart';
 import 'package:facebook_app/src/components/black_background_show_image.dart';
 import 'package:facebook_app/src/components/separator_widget.dart';
+import 'package:facebook_app/src/components/write_something_widget.dart';
 import 'package:facebook_app/src/view/friend/components/list_friend.dart';
 import 'package:facebook_app/src/view/post/post_widget_profile.dart';
 import 'package:facebook_app/src/viewmodel/profile_view_model.dart';
