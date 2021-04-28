@@ -1,4 +1,3 @@
-
 import 'package:facebook_app/src/base/base.dart';
 import 'package:facebook_app/src/data/model/user.dart';
 import 'package:facebook_app/src/view/chat/component/messenger_app_bar/AppBarNetworkRoundedImage2.dart';

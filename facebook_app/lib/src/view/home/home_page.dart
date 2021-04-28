@@ -1,18 +1,18 @@
-import 'package:facebook_app/base/base.dart';
-import 'package:facebook_app/viewmodel/home_view_model.dart';
-import 'package:facebook_app/widgets/search_widget2.dart';
+import 'package:facebook_app/src/base/base.dart';
+import 'package:facebook_app/src/view/friend/friends_tab.dart';
+import 'package:facebook_app/src/view/menu/menu_tab.dart';
+import 'package:facebook_app/src/view/notification/notifications_tab.dart';
+import 'package:facebook_app/src/view/profile/profile_tab.dart';
+import 'package:facebook_app/src/view/search/search_widget2.dart';
+import 'package:facebook_app/src/view/watch/watch_tab.dart';
+import 'package:facebook_app/src/viewmodel/home_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
-import 'package:facebook_app/view/tabs/home_tab.dart';
-import 'package:facebook_app/view/tabs/friends_tab.dart';
-import 'package:facebook_app/view/tabs/watch_tab.dart';
-import 'package:facebook_app/view/tabs/profile_tab.dart';
-import 'package:facebook_app/view/tabs/notifications_tab.dart';
-import 'package:facebook_app/view/tabs/menu_tab.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:facebook_app/chat.dart';
+
+import '../../../chat.dart';
+import 'home_tab.dart';
 
 class HomePage extends PageProvideNode<HomeProvide> {
   @override

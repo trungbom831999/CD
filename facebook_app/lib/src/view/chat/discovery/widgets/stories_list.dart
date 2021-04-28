@@ -1,4 +1,4 @@
-import 'package:facebook_app/src/models/popular_list.dart';
+import 'file:///F:/chuyen_de/CD-Team07/facebook_app/lib/src/models/popular_list.dart';
 import 'package:flutter/material.dart';
 
 class StoriesList extends StatefulWidget {
