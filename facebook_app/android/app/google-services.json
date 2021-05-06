@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:201953739482:android:4c490d978f5ffac5a05be3",
+        "mobilesdk_app_id": "1:201953739482:android:174fc0ddf2719714a05be3",
         "android_client_info": {
-          "package_name": "com.example.facebook_app"
+          "package_name": "com.cd.facebook_app"
         }
       },
       "oauth_client": [
@@ -29,6 +29,13 @@
             {
               "client_id": "201953739482-qg8ne84v4nc1i9rs20456vagi540uegd.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "201953739482-5up9fvnkeb7t52lmk2n428uc9ea4f1lg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.facebook-app"
+              }
             }
           ]
         }
