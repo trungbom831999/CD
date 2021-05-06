@@ -1,5 +1,5 @@
 import 'package:facebook_app/src/data/repository/user_repository_impl.dart';
-import 'file:///F:/chuyen_de/CD-Team07/facebook_app/lib/src/view/profile/profile_friend.dart';
+import 'package:facebook_app/src/view/profile/profile_friend.dart';
 import 'package:facebook_app/src/view/profile/profile_me.dart';
 import 'package:facebook_app/src/viewmodel/home_view_model.dart';
 import 'package:flutter/material.dart';

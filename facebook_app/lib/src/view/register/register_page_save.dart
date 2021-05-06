@@ -1,7 +1,7 @@
 import 'package:dartin/dartin.dart';
 import 'package:facebook_app/src/data/model/user.dart';
 import 'package:facebook_app/src/data/source/local/user_local_data.dart';
-// import 'package:facebook_app/src/view/home/home_page.dart';
+import 'package:facebook_app/src/view/home/home_page.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPageSave extends StatefulWidget {
@@ -93,7 +93,7 @@ class _RegisterPageSave extends State<RegisterPageSave> {
   }
 
   onContinueClick() {
-    // Navigator.push(
-    //     context, MaterialPageRoute(builder: (context) => HomePage()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => HomePage()));
   }
 }
