@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:facebook_app/src/ultils/context_ext.dart';
-// import 'package:facebook_app/src/view/home/home_page.dart';
+import 'package:facebook_app/src/view/home/home_page.dart';
 
 class LoginPage extends PageProvideNode<LoginProvide> {
   @override
@@ -294,9 +294,9 @@ class _LoginPageState extends State<LoginPageTmp>
                     )),
                 FlatButton(
                     onPressed: () {
-                      // _provide.saveLogin();
-                      // Navigator.push(context,
-                      //     MaterialPageRoute(builder: (context) => HomePage()));
+                      _provide.saveLogin();
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => HomePage()));
                     },
                     child: Text(
                       'Lưu',
