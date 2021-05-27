@@ -312,9 +312,9 @@ class _ProfileFriend extends State<ProfilePageTmp>
                                         color: Colors.grey[800])),
                               ],
                             ),
-                            Text('Tìm bạn bè',
-                                style: TextStyle(
-                                    fontSize: 16.0, color: Colors.blue)),
+                            // Text('Tìm bạn bè',
+                            //     style: TextStyle(
+                            //         fontSize: 16.0, color: Colors.blue)),
                           ],
                         ),
                         // Future.delayed(const Duration(milliseconds: 10), checkFriend("123"))

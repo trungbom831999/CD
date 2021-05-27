@@ -1,6 +1,9 @@
 import 'dart:ui';
 import 'dart:math';
 import 'package:facebook_app/src/data/model/user.dart';
+import 'package:facebook_app/src/data/repository/user_repository_impl.dart';
+import 'package:facebook_app/src/view/profile/profile_friend.dart';
+import 'package:facebook_app/src/view/profile/profile_me.dart';
 // import 'package:facebook_app/src/view/profile/profile_me.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -109,18 +112,18 @@ class _ListUserFriendState extends State<ListUserFriend2> {
         children: <Widget>[
           GestureDetector(
             onTap: () {
-              // if (friend.id == UserRepositoryImpl.currentUser.id) {
-              //   Navigator.push(
-              //     context,
-              //     MaterialPageRoute(builder: (context) => ProfileMe()),
-              //   );
-              // } else {
-              //   Navigator.push(
-              //     context,
-              //     MaterialPageRoute(
-              //         builder: (context) => ProfileFriend(friend)),
-              //   );
-              // }
+              if (friend.id == UserRepositoryImpl.currentUser.id) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfileMe()),
+                );
+              } else {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ProfileFriend(friend)),
+                );
+              }
             },
             child: Container(
               height: 60,

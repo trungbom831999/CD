@@ -5,6 +5,8 @@ import 'package:facebook_app/src/base/base.dart';
 import 'package:facebook_app/src/data/model/friend.dart';
 import 'package:facebook_app/src/data/model/user.dart';
 import 'package:facebook_app/src/data/repository/user_repository_impl.dart';
+import 'package:facebook_app/src/view/profile/profile_friend.dart';
+import 'package:facebook_app/src/view/profile/profile_me.dart';
 // import 'package:facebook_app/src/view/profile/profile_friend.dart';
 // import 'package:facebook_app/src/view/profile/profile_me.dart';
 import 'package:flutter/cupertino.dart';
@@ -131,18 +133,18 @@ class _ProfileFriend extends State<ProfilePageTmp>
         children: <Widget>[
           GestureDetector(
             onTap: () {
-              // if (friend.userSecond.id == UserRepositoryImpl.currentUser.id) {
-              //   Navigator.push(
-              //     context,
-              //     MaterialPageRoute(builder: (context) => ProfileMe()),
-              //   );
-              // } else {
-              //   Navigator.push(
-              //     context,
-              //     MaterialPageRoute(
-              //         builder: (context) => ProfileFriend(friend.userSecond)),
-              //   );
-              // }
+              if (friend.userSecond.id == UserRepositoryImpl.currentUser.id) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfileMe()),
+                );
+              } else {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ProfileFriend(friend.userSecond)),
+                );
+              }
             },
             child: Container(
               height: 60,
@@ -164,20 +166,20 @@ class _ProfileFriend extends State<ProfilePageTmp>
                 children: <Widget>[
                   GestureDetector(
                     onTap: () {
-                      // if (friend.userSecond.id ==
-                      //     UserRepositoryImpl.currentUser.id) {
-                      //   Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(builder: (context) => ProfileMe()),
-                      //   );
-                      // } else {
-                      //   Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) =>
-                      //             ProfileFriend(friend.userSecond)),
-                      //   );
-                      // }
+                      if (friend.userSecond.id ==
+                          UserRepositoryImpl.currentUser.id) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => ProfileMe()),
+                        );
+                      } else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  ProfileFriend(friend.userSecond)),
+                        );
+                      }
                     },
                     child: Text(
                       friend.userSecond.firstName +
@@ -189,7 +191,7 @@ class _ProfileFriend extends State<ProfilePageTmp>
                           fontWeight: FontWeight.bold),
                     ),
                   ),
-                  SizedBox(height: 2),
+                  // SizedBox(height: 2),
                   Container(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -197,7 +199,8 @@ class _ProfileFriend extends State<ProfilePageTmp>
                         Container(
                           width: 150.0,
                           child: Text(
-                            getFriendChung(),
+                            // getFriendChung(),
+                            " ",
                             style: TextStyle(
                                 color: Colors.grey.shade700, fontSize: 16),
                             overflow: TextOverflow.ellipsis,
@@ -251,24 +254,24 @@ class _ProfileFriend extends State<ProfilePageTmp>
                                                         friend.userSecond
                                                             .lastName),
                                                 onTap: () {
-                                                  // if (friend.userSecond.id ==
-                                                  //     UserRepositoryImpl
-                                                  //         .currentUser.id) {
-                                                  //   Navigator.push(
-                                                  //     context,
-                                                  //     MaterialPageRoute(
-                                                  //         builder: (context) =>
-                                                  //             ProfileMe()),
-                                                  //   );
-                                                  // } else {
-                                                  //   Navigator.push(
-                                                  //     context,
-                                                  //     MaterialPageRoute(
-                                                  //         builder: (context) =>
-                                                  //             ProfileFriend(friend
-                                                  //                 .userSecond)),
-                                                  //   );
-                                                  // }
+                                                  if (friend.userSecond.id ==
+                                                      UserRepositoryImpl
+                                                          .currentUser.id) {
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              ProfileMe()),
+                                                    );
+                                                  } else {
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              ProfileFriend(friend
+                                                                  .userSecond)),
+                                                    );
+                                                  }
                                                 },
                                               ),
                                               // _createTile(
