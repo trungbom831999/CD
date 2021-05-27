@@ -19,7 +19,7 @@ class SettingProfileFriend extends StatelessWidget {
           color: Colors.black, //change your color here
         ),
         title: Text(
-          "Cài đặt trang cá nhân",
+          "Cài đặt trang cá nhân bạn bè",
           style: TextStyle(color: Colors.black.withOpacity(1.0)),
         ),
         backgroundColor: Colors.white,
@@ -28,32 +28,32 @@ class SettingProfileFriend extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
         child: Column(
           children: <Widget>[
-            GestureDetector(
-              onTap: () {},
-              child: Row(
-                children: <Widget>[
-                  Icon(Icons.account_circle_outlined,
-                      color: Colors.black, size: 30.0),
-                  SizedBox(width: 10.0),
-                  Text("Chặn", style: TextStyle(fontSize: 16.0)),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-              child: Divider(height: 30.0),
-            ),
-            GestureDetector(
-              onTap: () {},
-              child: Row(
-                children: <Widget>[
-                  Icon(Icons.search, color: Colors.black, size: 30.0),
-                  SizedBox(width: 10.0),
-                  Text("Tìm kiếm trên trang cá nhân",
-                      style: TextStyle(fontSize: 16.0)),
-                ],
-              ),
-            ),
+            // GestureDetector(
+            //   onTap: () {},
+            //   child: Row(
+            //     children: <Widget>[
+            //       Icon(Icons.account_circle_outlined,
+            //           color: Colors.black, size: 30.0),
+            //       SizedBox(width: 10.0),
+            //       Text("Chặn", style: TextStyle(fontSize: 16.0)),
+            //     ],
+            //   ),
+            // ),
+            // Padding(
+            //   padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+            //   child: Divider(height: 30.0),
+            // ),
+            // GestureDetector(
+            //   onTap: () {},
+            //   child: Row(
+            //     children: <Widget>[
+            //       Icon(Icons.search, color: Colors.black, size: 30.0),
+            //       SizedBox(width: 10.0),
+            //       Text("Tìm kiếm trên trang cá nhân",
+            //           style: TextStyle(fontSize: 16.0)),
+            //     ],
+            //   ),
+            // ),
             Padding(
               padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
               child: Divider(height: 30.0),

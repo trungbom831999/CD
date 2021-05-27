@@ -524,9 +524,9 @@ class _ProfilePageState extends State<ProfilePageTmp>
                                     fontSize: 16.0, color: Colors.grey[800])),
                           ],
                         ),
-                        Text('Tìm bạn bè',
-                            style:
-                                TextStyle(fontSize: 16.0, color: Colors.blue)),
+                        // Text('Tìm bạn bè',
+                        //     style:
+                        //         TextStyle(fontSize: 16.0, color: Colors.blue)),
                       ],
                     ),
                     FriendGrid(
