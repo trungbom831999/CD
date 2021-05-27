@@ -14,6 +14,7 @@ class HomeTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print('loading ${value.loading}');
+    print('length ${value.listPost.length} max trong nay ${value.maxPost}');
     return NotificationListener<ScrollNotification>(
       onNotification: (scrollInfo) {
         if (!value.loading &&
@@ -23,41 +24,32 @@ class HomeTab extends StatelessWidget {
         }
         return true;
       },
-      child: SingleChildScrollView(
-        child: Column(
-          // shrinkWrap: true,
-          // physics: NeverScrollableScrollPhysics(),
-          children: <Widget>[
-            WriteSomethingWidget(
-              provide: value,
-            ),
-            SeparatorWidget(),
-            OnlineWidget(),
-            SeparatorWidget(),
-            StoriesWidget(),
-            for (int i = 0; i < value.maxPost; i++)
-              PostWidget(
-                post: value.listPost[i],
+      child: RefreshIndicator(
+        onRefresh: () async {
+          value.getListPost();
+        },
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              WriteSomethingWidget(
                 provide: value,
               ),
-            ListView.builder(
-                shrinkWrap: true,
-                itemCount: value.maxPost + 1,
-                itemBuilder: (context, index) {
-                  if (index == value.maxPost)
-                    return Container(
-                      height: value.loading || value.maxPost == 0 ? 64.0 : 0,
-                      // height: 64,
-                      padding: EdgeInsets.only(bottom: 18),
-                      color: Colors.transparent,
-                      child: Center(child: CircularProgressIndicator()),
-                    );
-                  return PostWidget(
-                    post: value.listPost[index],
-                    provide: value,
-                  );
-                }),
-          ],
+              SeparatorWidget(),
+              // OnlineWidget(),
+              Visibility(
+                  visible: value.loadingImage || value.loadingVideo,
+                  child: LinearProgressIndicator()),
+              Visibility(
+                  visible: value.loadingImage || value.loadingVideo,
+                  child: SeparatorWidget()),
+              // StoriesWidget(),
+              for (int i = 0; i < value.maxPost; i++)
+                PostWidget(
+                  post: value.listPost[i],
+                  provide: value,
+                ),
+            ],
+          ),
         ),
       ),
     );

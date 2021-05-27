@@ -54,6 +54,7 @@ dependencies:
   video_player: ^2.1.1
   flutter_emoji: ^2.2.1+1
   flutter_slidable: ^0.6.0
+  video_thumbnail: ^0.3.3
 
 dev_dependencies:
   flutter_test:
@@ -97,6 +98,7 @@ flutter:
     - assets/images/fb_favicon.png
     - assets/images/top_background.jpg
     - assets/images/image_signup.png
+    - assets/images/avatar_default.jpg
     - assets/
   fonts:
     - family: AppIcons

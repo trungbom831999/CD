@@ -17,6 +17,7 @@ import 'package:facebook_app/src/data/repository/notification_repository.dart';
 import 'package:facebook_app/src/data/repository/photo_repository.dart';
 import 'package:facebook_app/src/data/repository/post_repository.dart';
 import 'package:facebook_app/src/data/repository/user_repository.dart';
+import 'package:facebook_app/src/data/repository/user_repository_impl.dart';
 
 class HomeProvide extends BaseProvide {
   final PostRepository repository;
@@ -155,6 +156,16 @@ class HomeProvide extends BaseProvide {
     notifyListeners();
   }
 
+  bool _doneCreate = false;
+
+  bool get doneCreate => _doneCreate;
+
+  set doneCreate(bool loading) {
+    _doneCreate = loading;
+    notifyListeners();
+    _doneCreate = false;
+  }
+
   UserEntity get userEntity => _userEntity;
 
   set userEntity(UserEntity userEntity) {
@@ -169,7 +180,7 @@ class HomeProvide extends BaseProvide {
     userRepository.getCurrentUser().then((value) {
       userEntity = value;
       // print('user Entity ${value.firstName}');
-      _getListPost();
+      getListPost();
       getFriends(userEntity);
       getFriendsRequest(userEntity);
       //  getFriendsWaitConfirm(userEntity);
@@ -182,13 +193,13 @@ class HomeProvide extends BaseProvide {
     notifyListeners();
   }
 
-  _createPost(Post post) {
-    repository.createPost(post, userEntity.id).listen((value) {
-      loading = true;
-    }, onDone: () {
-      loading = false;
-    });
-  }
+  // _createPost(Post post) {
+  //   repository.createPost(post, userEntity.id).listen((value) {
+  //     loading = true;
+  //   }, onDone: () {
+  //     loading = false;
+  //   });
+  // }
 
   Stream<void> _updatePost(Post post) {
     repository.updatePost(post, userEntity.id).listen((value) {
@@ -206,6 +217,7 @@ class HomeProvide extends BaseProvide {
       loadingImage = true;
       _progressPhoto = new List(pathImages.length);
       pathImages.asMap().forEach((index, element) async {
+        print(index);
         await photoRepository.uploadPhoto(userEntity.id, element, (urlPath) {
           loadingImage = false;
           // print(urlPath);
@@ -220,7 +232,7 @@ class HomeProvide extends BaseProvide {
           print('loi roi xu ly loi upload photo fail ơ đây nhá');
         }, (progress) {
           _progressPhoto[index] = progress;
-          print(progress);
+          print("progress $progress");
           progressPhoto = _progressPhoto;
         });
       });
@@ -244,21 +256,33 @@ class HomeProvide extends BaseProvide {
   }
 
   Future<void> uploadPost(String content,
-      {List<String> pathImages, String pathVideos}) async {
+      {List<String> pathImages, String pathVideos, Function onDone}) async {
     // print(pathImages);
-    Post post = Post("-1", content, DateTime.now().toString(),
-        DateTime.now().toString(), [], [], [], Video.origin(), userEntity);
+    Post post = Post(
+        "-1",
+        content,
+        DateTime.now().toString(),
+        DateTime.now().toString(),
+        [],
+        [],
+        [],
+        Video.origin(),
+        userEntity);
     if (pathImages != null && pathImages.isNotEmpty) {
       loadingImage = true;
       _progressPhoto = new List(pathImages.length);
       pathImages.asMap().forEach((index, element) async {
+        print(index);
         await photoRepository.uploadPhoto(userEntity.id, element, (urlPath) {
-          loadingImage = false;
           // print(urlPath);
           post.images.add(urlPath);
           if (index == pathImages.length - 1) {
-            _createPost(post).listen((event) {
+            repository.createPost(post, userEntity.id).listen((event) {
               print("xu ly upload post success o day");
+              print("xu ly upload post success o day");
+              loadingImage = false;
+              loadingVideo = false;
+              onDone();
             }, onError: (e) => {print("xu ly upload post fail o day")});
           }
         }, () {
@@ -266,25 +290,31 @@ class HomeProvide extends BaseProvide {
           print('loi roi xu ly loi upload photo fail ơ đây nhá');
         }, (progress) {
           _progressPhoto[index] = progress;
-          print(progress);
+          print('progress $index $progress');
           progressPhoto = _progressPhoto;
         });
       });
     } else if (pathVideos != null && pathVideos.isNotEmpty) {
       loadingVideo = true;
       photoRepository.uploadVideo(userEntity.id, pathVideos, (urlPath) {
-        loadingVideo = false;
         post.video.url = urlPath;
-        _createPost(post).listen((event) {
+        repository.createPost(post, userEntity.id).listen((event) {
           print("xu ly upload post success o day");
+          print("xu ly upload post success o day");
+          loadingImage = false;
+          loadingVideo = false;
+          onDone();
         }, onError: (e) => {print("xu ly upload video fail o day")});
       }, () {
         loadingVideo = false;
         print('loi roi xu ly loi upload video fail ơ đây nhá');
       }, (progress) {});
     } else {
-      _createPost(post).listen((event) {
+      repository.createPost(post, userEntity.id).listen((event) {
         print("xu ly upload post success o day");
+        loadingImage = false;
+        loadingVideo = false;
+        onDone();
       }, onError: (e) => {print("xu ly upload post fail o day")});
     }
   }
@@ -299,44 +329,48 @@ class HomeProvide extends BaseProvide {
     }, onError: (e) => {print("xu ly fail o day")});
   }
 
-  _getListPost() => repository.getListPost().listen((event) async {
-        event.docChanges.forEach((element) async {
-          DocumentReference documentReference = element.doc.data()['owner'];
-          documentReference.get().then((value) {
-            UserEntity userPost = UserEntity.fromJson(value.data());
-            Post postRoot = Post.fromMap(element.doc.data(), userPost);
-            postRoot.isLiked = checkLiked(postRoot.likes);
-            if (element.type == DocumentChangeType.added) {
+  getListPost() {
+    _listPost.clear();
+    maxPost = 0;
+    repository.getListPost().listen((event) async {
+      event.docChanges.forEach((element) async {
+        DocumentReference documentReference = element.doc.data()['owner'];
+        documentReference.get().then((value) {
+          UserEntity userPost = UserEntity.fromJson(value.data());
+          Post postRoot = Post.fromMap(element.doc.data(), userPost);
+          postRoot.isLiked = checkLiked(postRoot.likes);
+          if (element.type == DocumentChangeType.added) {
+            _insertPost(postRoot);
+          } else if (element.type == DocumentChangeType.modified) {
+            Post post = postRoot;
+            int position = -1;
+            position = _listPost.indexWhere(
+                  (element) =>
+              (element.postId == post.postId) || element.postId == '-1',
+            );
+            int positionTmp = -1;
+            positionTmp = tmpPosts.indexWhere(
+                  (element) =>
+              (element.postId == post.postId) || element.postId == '-1',
+            );
+            if (position != -1)
+              _listPost[position] = post;
+            else if (positionTmp != -1)
+              tmpPosts[positionTmp] = post;
+            else
               _insertPost(postRoot);
-            } else if (element.type == DocumentChangeType.modified) {
-              Post post = postRoot;
-              int position = -1;
-              position = _listPost.indexWhere(
-                (element) =>
-                    (element.postId == post.postId) || element.postId == '-1',
-              );
-              int positionTmp = -1;
-              positionTmp = tmpPosts.indexWhere(
-                (element) =>
-                    (element.postId == post.postId) || element.postId == '-1',
-              );
-              if (position != -1)
-                _listPost[position] = post;
-              else if (positionTmp != -1)
-                tmpPosts[positionTmp] = post;
-              else
-                _insertPost(postRoot);
-              notifyListeners();
-            } else if (element.type == DocumentChangeType.removed) {
-              Post post = postRoot;
-              _listPost.removeWhere((element) => element.postId == post.postId);
-            }
-          });
-          if (event.docChanges.length != 0) {
             notifyListeners();
+          } else if (element.type == DocumentChangeType.removed) {
+            Post post = postRoot;
+            _listPost.removeWhere((element) => element.postId == post.postId);
           }
         });
-      }, onError: (e) => {print("xu ly fail o day")});
+        if (event.docChanges.length != 0) {
+          notifyListeners();
+        }
+      });
+    }, onError: (e) => {print("xu ly fail o day")});
+  }
 
   getFriends(UserEntity entity) {
     _friends.clear();
@@ -354,7 +388,7 @@ class HomeProvide extends BaseProvide {
             // print('modified');
             int position = -1;
             position = _friends.indexWhere(
-                (element) => (element.userSecond == friend.userSecond));
+                    (element) => (element.userSecond == friend.userSecond));
             if (friend.status == FriendStatus.none) {
               _friends.remove(position);
             }
@@ -365,7 +399,7 @@ class HomeProvide extends BaseProvide {
             notifyListeners();
           } else if (element.type == DocumentChangeType.removed) {
             _friends.removeWhere(
-                (element) => element.userSecond == friend.userSecond);
+                    (element) => element.userSecond == friend.userSecond);
             notifyListeners();
           }
         });
@@ -378,7 +412,7 @@ class HomeProvide extends BaseProvide {
       friendRepository.getRequestFriends(entity.id).listen((event) async {
         event.docChanges.forEach((element) async {
           DocumentReference documentReference =
-              element.doc.data()['second_user'];
+          element.doc.data()['second_user'];
           await documentReference.get().then((value) {
             UserEntity second = UserEntity.fromJson(value.data());
             Friend friend = Friend.fromJson(element.doc.data(), entity, second);
@@ -389,7 +423,7 @@ class HomeProvide extends BaseProvide {
               print('removed');
               int position = -1;
               position = _friendRequest.indexWhere(
-                  (element) => (element.userSecond == friend.userSecond));
+                      (element) => (element.userSecond == friend.userSecond));
               if (friend.status == FriendStatus.none) {
                 _friendRequest.remove(position);
               }
@@ -401,7 +435,7 @@ class HomeProvide extends BaseProvide {
             } else if (element.type == DocumentChangeType.removed) {
               print('removed');
               _friendRequest.removeWhere(
-                  (element) => element.userFirst.id == friend.userFirst.id);
+                      (element) => element.userFirst.id == friend.userFirst.id);
               notifyListeners();
             }
           });
@@ -414,18 +448,18 @@ class HomeProvide extends BaseProvide {
         print('fiends cua ${entity.id}');
         event.docChanges.forEach((element) async {
           DocumentReference documentReference =
-              element.doc.data()['second_user'];
+          element.doc.data()['second_user'];
           await documentReference.get().then((value) {
             UserEntity secondUser = UserEntity.fromJson(value.data());
             Friend friend =
-                Friend.fromJson(element.doc.data(), entity, secondUser);
+            Friend.fromJson(element.doc.data(), entity, secondUser);
             if (element.type == DocumentChangeType.added) {
               _friendWaitConfirm.insert(0, friend);
               notifyListeners();
             } else if (element.type == DocumentChangeType.modified) {
               int position = -1;
               position = _friendWaitConfirm.indexWhere(
-                  (element) => (element.userSecond == friend.userSecond));
+                      (element) => (element.userSecond == friend.userSecond));
               if (friend.status == FriendStatus.none) {
                 _friendWaitConfirm.remove(position);
               }
@@ -436,7 +470,7 @@ class HomeProvide extends BaseProvide {
               notifyListeners();
             } else if (element.type == DocumentChangeType.removed) {
               _friendWaitConfirm.removeWhere(
-                  (element) => element.userSecond == friend.userSecond);
+                      (element) => element.userSecond == friend.userSecond);
               notifyListeners();
             }
             print('leng wait ${_friendWaitConfirm.length}');
@@ -447,58 +481,22 @@ class HomeProvide extends BaseProvide {
   getNotifications() {
     print('vao notification');
     notificationRepository.getNotifications(userEntity.id).listen(
-        (event) async {
-      event.docChanges.forEach((element) async {
-        DocumentReference documentReference = element.doc.data()['first_user'];
-        await documentReference.get().then((value) async {
-          UserEntity user = UserEntity.fromJson(value.data());
-          // print(user.firstName);
-          NotificationApp notification;
-          var map = element.doc.data();
-          NotificationType type =
+            (event) async {
+          event.docChanges.forEach((element) async {
+            DocumentReference documentReference = element.doc
+                .data()['first_user'];
+            await documentReference.get().then((value) async {
+              UserEntity user = UserEntity.fromJson(value.data());
+              // print(user.firstName);
+              NotificationApp notification;
+              var map = element.doc.data();
+              NotificationType type =
               NotificationType.values[int.parse(map['type'].toString())];
-          switch (type) {
-            case NotificationType.acceptFriend:
-              {
-                notification = NotificationAcceptFriend(
-                    map['id'],
-                    user,
-                    map['update_time'],
-                    map['others'],
-                    (map['receivers'] as List)
-                        .map((e) => e.toString())
-                        .toList());
-                _insertNotification(element.type, notification);
-                notifyListeners();
-              }
-              break;
-            case NotificationType.requestFriend:
-              {
-                notification = NotificationRequestFriend(
-                    map['id'],
-                    user,
-                    map['update_time'],
-                    map['others'],
-                    (map['receivers'] as List)
-                        .map((e) => e.toString())
-                        .toList());
-                _insertNotification(element.type, notification);
-                notifyListeners();
-              }
-              break;
-            case NotificationType.likePost:
-              {
-                DocumentReference documentReference =
-                    element.doc.data()['post'];
-                documentReference.get().then((postMap) {
-                  DocumentReference documentReferenceUser =
-                      postMap.data()['owner'];
-                  documentReferenceUser.get().then((value) {
-                    UserEntity userPost = UserEntity.fromJson(value.data());
-                    Post post = Post.fromMap(postMap.data(), userPost);
-                    notification = NotificationLikePost(
+              switch (type) {
+                case NotificationType.acceptFriend:
+                  {
+                    notification = NotificationAcceptFriend(
                         map['id'],
-                        post,
                         user,
                         map['update_time'],
                         map['others'],
@@ -507,23 +505,12 @@ class HomeProvide extends BaseProvide {
                             .toList());
                     _insertNotification(element.type, notification);
                     notifyListeners();
-                  });
-                });
-              }
-              break;
-            case NotificationType.commentPost:
-              {
-                DocumentReference documentReference =
-                    element.doc.data()['post'];
-                documentReference.get().then((postMap) {
-                  DocumentReference documentReferenceUser =
-                      postMap.data()['owner'];
-                  documentReferenceUser.get().then((value) {
-                    UserEntity userPost = UserEntity.fromJson(value.data());
-                    Post post = Post.fromMap(postMap.data(), userPost);
-                    notification = NotificationCommentPost(
+                  }
+                  break;
+                case NotificationType.requestFriend:
+                  {
+                    notification = NotificationRequestFriend(
                         map['id'],
-                        post,
                         user,
                         map['update_time'],
                         map['others'],
@@ -532,14 +519,62 @@ class HomeProvide extends BaseProvide {
                             .toList());
                     _insertNotification(element.type, notification);
                     notifyListeners();
-                  });
-                });
+                  }
+                  break;
+                case NotificationType.likePost:
+                  {
+                    DocumentReference documentReference =
+                    element.doc.data()['post'];
+                    documentReference.get().then((postMap) {
+                      DocumentReference documentReferenceUser =
+                      postMap.data()['owner'];
+                      documentReferenceUser.get().then((value) {
+                        UserEntity userPost = UserEntity.fromJson(value.data());
+                        Post post = Post.fromMap(postMap.data(), userPost);
+                        notification = NotificationLikePost(
+                            map['id'],
+                            post,
+                            user,
+                            map['update_time'],
+                            map['others'],
+                            (map['receivers'] as List)
+                                .map((e) => e.toString())
+                                .toList());
+                        _insertNotification(element.type, notification);
+                        notifyListeners();
+                      });
+                    });
+                  }
+                  break;
+                case NotificationType.commentPost:
+                  {
+                    DocumentReference documentReference =
+                    element.doc.data()['post'];
+                    documentReference.get().then((postMap) {
+                      DocumentReference documentReferenceUser =
+                      postMap.data()['owner'];
+                      documentReferenceUser.get().then((value) {
+                        UserEntity userPost = UserEntity.fromJson(value.data());
+                        Post post = Post.fromMap(postMap.data(), userPost);
+                        notification = NotificationCommentPost(
+                            map['id'],
+                            post,
+                            user,
+                            map['update_time'],
+                            map['others'],
+                            (map['receivers'] as List)
+                                .map((e) => e.toString())
+                                .toList());
+                        _insertNotification(element.type, notification);
+                        notifyListeners();
+                      });
+                    });
+                  }
+                  break;
               }
-              break;
-          }
-        });
-      });
-    }, onError: (e) => {print("xu ly fail o day")});
+            });
+          });
+        }, onError: (e) => {print("xu ly fail o day")});
   }
 
   void updateLike(Post post) {
@@ -555,7 +590,8 @@ class HomeProvide extends BaseProvide {
   }
 
   void addComment(Post post, String content) {
-    Comment comment = Comment(userEntity, content);
+    Comment comment = Comment(
+        UserRepositoryImpl.currentUser, content, DateTime.now().toString());
     post.comments.add(comment);
     repository.updateComment(post, comment);
   }
@@ -568,7 +604,7 @@ class HomeProvide extends BaseProvide {
     }
     print(listPost.length);
     print('change roi');
-    if (maxPost < 10){
+    if (maxPost < 10) {
       listPost.length < 10 ? maxPost = listPost.length : maxPost = 10;
       print('max post là $maxPost');
     }
@@ -592,7 +628,7 @@ class HomeProvide extends BaseProvide {
   bool checkLiked(List<UserEntity> users) {
     if (users.length == 0) return false;
     return users.firstWhere((element) => element.id == userEntity.id,
-            orElse: () => null) !=
+        orElse: () => null) !=
         null;
   }
 
