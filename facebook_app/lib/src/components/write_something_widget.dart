@@ -2,7 +2,7 @@ import 'package:facebook_app/src/view/post/create_post.dart';
 import 'package:facebook_app/src/viewmodel/home_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-
+import 'package:facebook_app/src/components/image_circle.dart';
 class WriteSomethingWidget extends StatelessWidget {
   final HomeProvide provide;
   WriteSomethingWidget({
@@ -19,11 +19,10 @@ class WriteSomethingWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                CircleAvatar(
-                  radius: 28.0,
-                  backgroundImage: NetworkImage(provide.userEntity.avatar),
+                ImageCircle(
+                    provide.userEntity.avatar,
+                    (){}
                 ),
-
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                   width: MediaQuery.of(context).size.width/1.5,

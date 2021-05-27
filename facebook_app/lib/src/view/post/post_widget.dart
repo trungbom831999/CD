@@ -16,6 +16,7 @@ import 'package:facebook_app/src/ultils/string_ext.dart';
 import 'package:facebook_app/src/view/post/video_player.dart';
 import 'comment_widget.dart';
 import 'edit_post.dart';
+import 'package:facebook_app/src/components/image_circle.dart';
 
 class PostWidget extends StatelessWidget {
   final Post post;
@@ -44,26 +45,23 @@ class PostWidget extends StatelessWidget {
                 children: [
                   Row(
                     children: <Widget>[
-                      GestureDetector(
-                        onTap: () {
-                          if (post.owner.id == UserRepositoryImpl.currentUser.id) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => ProfileMe()),
-                            );
-                          } else {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ProfileFriend(post.owner)),
-                            );
-                          }
-                        },
-                        child: CircleAvatar(
-                          backgroundImage: NetworkImage(post.owner.avatar),
-                          radius: 20.0,
-                        ),
-                      ),
+                      ImageCircle(post.owner.avatar, () {
+                        if (post.owner.id ==
+                            UserRepositoryImpl.currentUser.id) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ProfileMe()),
+                          );
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    ProfileFriend(post.owner)),
+                          );
+                        }
+                      }),
                       SizedBox(width: 7.0),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -90,9 +88,12 @@ class PostWidget extends StatelessWidget {
                             child: Row(
                               children: [
                                 Text(
-                                    post.owner.firstName + ' ' + post.owner.lastName,
+                                    post.owner.firstName +
+                                        ' ' +
+                                        post.owner.lastName,
                                     style: TextStyle(
-                                        fontWeight: FontWeight.bold, fontSize: 17.0)),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 17.0)),
                                 SizedBox(
                                   width: 5.0,
                                 ),
@@ -112,17 +113,16 @@ class PostWidget extends StatelessWidget {
                   ),
                   buildMenu(context),
                 ],
-              )
-          ),
+              )),
           SizedBox(height: 5.0),
           GestureDetector(
             onTap: () {
               showMaterialModalBottomSheet(
                   context: context,
                   builder: (context) => CreateCommentWidget(
-                    provide: provide,
-                    post: post,
-                  ));
+                        provide: provide,
+                        post: post,
+                      ));
             },
             child: Padding(
                 padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -136,9 +136,9 @@ class PostWidget extends StatelessWidget {
                         throw 'Could not launch $link';
                       }
                     },
-                    text:post.described.getMyText(),
+                    text: post.described.getMyText(),
                     //textAlign: TextAlign.left,
-                    linkStyle: TextStyle( fontSize: 15.0,color: Colors.black),
+                    linkStyle: TextStyle(fontSize: 15.0, color: Colors.black),
                   ),
                   //Text(post.described.getMyText(), style: TextStyle(fontSize: 15.0)
                 )),
@@ -399,25 +399,26 @@ class PostWidget extends StatelessWidget {
 
   Visibility buildVideos(BuildContext context) {
     bool isVisible = post.video.url.isNotEmpty;
-    if(isVisible)
+    if (isVisible)
+      return Visibility(
+        visible: isVisible,
+        child: VideoPlayerWidget(post.video.url),
+      );
     return Visibility(
+      child: Container(),
       visible: isVisible,
-      child: VideoPlayerWidget(post.video.url),
     );
-    return Visibility(child: Container(), visible: isVisible,);
   }
-  Visibility buildMenu(BuildContext context){
-    return  Visibility(
+
+  Visibility buildMenu(BuildContext context) {
+    return Visibility(
       visible: post.owner.id == UserRepositoryImpl.currentUser.id,
       child: PopupMenuButton<String>(
         onSelected: (String value) {
           showMaterialModalBottomSheet(
             context: context,
             backgroundColor: Colors.transparent,
-            builder: (context) => EditPostWidget(
-                provide: provide,
-                post: post
-            ),
+            builder: (context) => EditPostWidget(provide: provide, post: post),
           );
         },
         itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[

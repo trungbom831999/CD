@@ -32,7 +32,7 @@ class _CreateCommentState extends State<CreateCommentWidget> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-      height: MediaQuery.of(context).size.height * 0.95,
+      height: MediaQuery.of(context).size.height * 0.8,
       decoration: new BoxDecoration(
         color: Colors.white,
         borderRadius: new BorderRadius.only(
@@ -42,7 +42,6 @@ class _CreateCommentState extends State<CreateCommentWidget> {
       ),
       // padding: EdgeInsets.all(20),
       child: SingleChildScrollView(
-
         child: Column(
           children: <Widget>[
             Container(
@@ -62,8 +61,7 @@ class _CreateCommentState extends State<CreateCommentWidget> {
             ),
             Divider(height: 10.0),
             Container(
-
-              height: MediaQuery.of(context).size.height * 0.8,
+              height: MediaQuery.of(context).size.height * 0.6,
               child: ListView.builder(
                   shrinkWrap: true,
                   itemCount: post.comments.length,
@@ -179,4 +177,5 @@ class _CreateCommentState extends State<CreateCommentWidget> {
       ),
     );
   }
+
 }
