@@ -96,12 +96,44 @@ class HomeProvide extends BaseProvide {
     }
   }
 
+  bool _isBottom = true;
+
+  bool get isBottom => _isBottom;
+
+  set isBottom(bool bottom) {
+    print('is bottom $bottom');
+    _isBottom = bottom;
+    if (_isBottom) {
+      loading = true;
+      int tmp = maxPost + 10;
+      if (tmp <= listPost.length)
+        maxPost = tmp;
+      else
+        maxPost = listPost.length;
+      print('max $maxPost length ${listPost.length}');
+      Future.delayed(const Duration(milliseconds: 1000), () {
+        loading = false;
+        _isBottom = false;
+        notifyListeners();
+      });
+    }
+  }
+
   bool _loading = false;
 
   bool get loading => _loading;
 
   set loading(bool loading) {
     _loading = loading;
+    notifyListeners();
+  }
+
+  int _maxPost = 0;
+
+  int get maxPost => _maxPost;
+
+  set maxPost(int max) {
+    _maxPost = max;
     notifyListeners();
   }
 
@@ -140,22 +172,30 @@ class HomeProvide extends BaseProvide {
       _getListPost();
       getFriends(userEntity);
       getFriendsRequest(userEntity);
-    //  getFriendsWaitConfirm(userEntity);
+      //  getFriendsWaitConfirm(userEntity);
       getNotifications();
       getUsers();
     });
   }
 
+  setState() {
+    notifyListeners();
+  }
+
   _createPost(Post post) {
-    repository
-        .createPost(post, userEntity.id)
-        .listen((value){loading = true;}, onDone: (){loading = false;});
+    repository.createPost(post, userEntity.id).listen((value) {
+      loading = true;
+    }, onDone: () {
+      loading = false;
+    });
   }
 
   Stream<void> _updatePost(Post post) {
-    repository
-        .updatePost(post, userEntity.id)
-        .listen((value){loading = true;}, onDone: (){loading = false;});
+    repository.updatePost(post, userEntity.id).listen((value) {
+      loading = true;
+    }, onDone: () {
+      loading = false;
+    });
   }
 
   Future<void> upDatePost(Post post,
@@ -315,7 +355,7 @@ class HomeProvide extends BaseProvide {
             int position = -1;
             position = _friends.indexWhere(
                 (element) => (element.userSecond == friend.userSecond));
-            if(friend.status == FriendStatus.none){
+            if (friend.status == FriendStatus.none) {
               _friends.remove(position);
             }
             if (position != -1)
@@ -350,7 +390,7 @@ class HomeProvide extends BaseProvide {
               int position = -1;
               position = _friendRequest.indexWhere(
                   (element) => (element.userSecond == friend.userSecond));
-              if(friend.status == FriendStatus.none){
+              if (friend.status == FriendStatus.none) {
                 _friendRequest.remove(position);
               }
               if (position != -1)
@@ -363,7 +403,6 @@ class HomeProvide extends BaseProvide {
               _friendRequest.removeWhere(
                   (element) => element.userFirst.id == friend.userFirst.id);
               notifyListeners();
-
             }
           });
         });
@@ -387,7 +426,7 @@ class HomeProvide extends BaseProvide {
               int position = -1;
               position = _friendWaitConfirm.indexWhere(
                   (element) => (element.userSecond == friend.userSecond));
-              if(friend.status == FriendStatus.none){
+              if (friend.status == FriendStatus.none) {
                 _friendWaitConfirm.remove(position);
               }
               if (position != -1)
@@ -526,6 +565,12 @@ class HomeProvide extends BaseProvide {
       _listPost.insert(0, post);
     } else {
       tmpPosts.add(post);
+    }
+    print(listPost.length);
+    print('change roi');
+    if (maxPost < 10){
+      listPost.length < 10 ? maxPost = listPost.length : maxPost = 10;
+      print('max post là $maxPost');
     }
     notifyListeners();
   }

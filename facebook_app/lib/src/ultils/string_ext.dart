@@ -37,50 +37,50 @@ extension StringX on String {
   String getMyText() {
     String s = this;
     int n = s.length;
-    for(int i=0;i<n;i++){
+    for(int i=0;i<n-2;i++){
       // icon buồn
       if(i<n-1&&s[i]==":"&&s[i+1]=="(") {
-        s = s.substring(0,i) + "😞"+ s.substring(i+2,n);
+        s = s.substring(0,i) + "😞"+ s.substring(i+2,s.length);
         i++;
       } // icon fine
       else if(i<n-1&&s[i]==":"&&s[i+1]==")") {
-        s = s.substring(0,i) + "🙂"+ s.substring(i+2,n);
+        s = s.substring(0,i) + "🙂"+ s.substring(i+2,s.length);
         i++;
       }
       else if(i<n-1&&s[i]==":"&&s[i+1]=="D") {
-        s = s.substring(0,i) + "😃"+ s.substring(i+2,n);
+        s = s.substring(0,i) + "😃"+ s.substring(i+2,s.length);
         i++;
       }
       else if(i<n-1&&s[i]==":"&&s[i+1]=="P") {
-        s = s.substring(0,i) + "😛"+ s.substring(i+2,n);
+        s = s.substring(0,i) + "😛"+ s.substring(i+2,s.length);
         i++;
       }
       else if(i<n-1&&s[i]==":"&&s[i+1]=="O") {
-        s = s.substring(0,i) + "😮"+ s.substring(i+2,n);
+        s = s.substring(0,i) + "😮"+ s.substring(i+2,s.length);
         i++;
       }
       else if(i<n-1&&s[i]==":"&&s[i+1]=="/") {
-        s = s.substring(0,i) + "😕"+ s.substring(i+2,n);
+        s = s.substring(0,i) + "😕"+ s.substring(i+2,s.length);
         i++;
       }
       else if(i<n-1&&s[i]==":"&&s[i+1]=="*") {
-        s = s.substring(0,i) + "😘"+ s.substring(i+2,n);
+        s = s.substring(0,i) + "😘"+ s.substring(i+2,s.length);
         i++;
       }
       else if(i<n-1&&s[i]=="<"&&s[i+1]=="3") {
-        s = s.substring(0,i) + "❤"+ s.substring(i+2,n);
+        s = s.substring(0,i) + "❤"+ s.substring(i+2,s.length);
         i++;
       }
       else if(i<n-1&&s[i]=="="&&s[i+1]=="b"){
-        s = s.substring(0,i) + "👍"+ s.substring(i+2,n);
+        s = s.substring(0,i) + "👍"+ s.substring(i+2,s.length);
         i++;
       }
       else if(i<n-1&&s[i]==";"&&s[i+1]==")"){
-        s = s.substring(0,i) + "😉"+ s.substring(i+2,n);
+        s = s.substring(0,i) + "😉"+ s.substring(i+2,s.length);
         i++;
       }
       else if(i<n-5&&s[i]==":"&&s[i+1]=="p"&&s[i+2]=="o"&&s[i+3]=="o"&&s[i+4]=="p"&&s[i+5]==":"){
-        s = s.substring(0,i) + "💩"+ s.substring(i+6,n);
+        s = s.substring(0,i) + "💩"+ s.substring(i+6,s.length);
         i++;
       }
       // code thêm thì làm theo form trên
@@ -93,69 +93,69 @@ extension StringX on String {
     String s = this;
     int n = s.length;
     if(n>=3&&s[n-3]==":"&&s[n-2]=="(") {
-      if(n>=4) s = s.substring(0,n-3) + "😞 ";
+      if(n>=4) s = s.substring(0,s.length-3) + "😞 ";
       else{
-        s = s.substring(0,n-3) + "😞 ";
+        s = s.substring(0,s.length-3) + "😞 ";
       }
     } // icon fine
     else if(n>=3&&s[n-3]==":"&&s[n-2]==")") {
-      if(n>=4) s = s.substring(0,n-3) + "🙂 ";
+      if(n>=4) s = s.substring(0,s.length-3) + "🙂 ";
       else{
-        s = s.substring(0,n-3) + "🙂 ";
+        s = s.substring(0,s.length-3) + "🙂 ";
       }
     }
     else if(n>=3&&s[n-3]==":"&&s[n-2]=="D") {
-      if(n>=4)s = s.substring(0,n-3) + "😃 ";
+      if(n>=4)s = s.substring(0,s.length-3) + "😃 ";
       else{
-        s = s.substring(0,n-3) + "😃 ";
+        s = s.substring(0,s.length-3) + "😃 ";
       }
     }
     else if(n>=3&&s[n-3]==":"&&s[n-2]=="P") {
-      if(n>=4)s = s.substring(0,n-3) + "😛 ";
+      if(n>=4)s = s.substring(0,s.length-3) + "😛 ";
       else{
-        s = s.substring(0,n-3) + "😛 ";
+        s = s.substring(0,s.length-3) + "😛 ";
       }
     }
     else if(n>=3&&s[n-3]==":"&&s[n-2]=="O") {
-      if(n>=4)s = s.substring(0,n-3) + "😮 ";
+      if(n>=4)s = s.substring(0,s.length-3) + "😮 ";
       else{
-        s = s.substring(0,n-3) + "😮 ";
+        s = s.substring(0,s.length-3) + "😮 ";
       }
     }
     else if(n>=3&&s[n-3]==":"&&s[n-2]=="/") {
-      if(n>=4)s = s.substring(0,n-3) + "😕 ";
+      if(n>=4)s = s.substring(0,s.length-3) + "😕 ";
       else{
-        s = s.substring(0,n-3) + "😕 ";
+        s = s.substring(0,s.length-3) + "😕 ";
       }
     }
     else if(n>=3&&s[n-3]==":"&&s[n-2]=="*") {
-      if(n>=4)s = s.substring(0,n-3) + "😘 ";
+      if(n>=4)s = s.substring(0,s.length-3) + "😘 ";
       else{
-        s = s.substring(0,n-3) + "😘 ";
+        s = s.substring(0,s.length-3) + "😘 ";
       }
     }
     else if(n>=3&&s[n-3]=="<"&&s[n-2]=="3") {
-      if(n>=4)s = s.substring(0,n-3) + "❤ ";
+      if(n>=4)s = s.substring(0,s.length-3) + "❤ ";
       else{
-        s = s.substring(0,n-3) + "❤ ";
+        s = s.substring(0,s.length-3) + "❤ ";
       }
     }
     else if(n>=3&&s[n-3]=="="&&s[n-2]=="b"){
-      if(n>=4)s = s.substring(0,n-3) + "👍 ";
+      if(n>=4)s = s.substring(0,s.length-3) + "👍 ";
       else{
-        s = s.substring(0,n-3) + "👍 ";
+        s = s.substring(0,s.length-3) + "👍 ";
       }
     }
     else if(n>=3&&s[n-3]==";"&&s[n-2]==")"){
-      if(n>=4)s = s.substring(0,n-3) + "😉 ";
+      if(n>=4)s = s.substring(0,s.length-3) + "😉 ";
       else{
-        s = s.substring(0,n-3) + "😉 ";
+        s = s.substring(0,s.length-3) + "😉 ";
       }
     }
     else if(n>=7&&s[n-7]==":"&&s[n-6]=="p"&&s[n-5]=="o"&&s[n-4]=="o"&&s[n-3]=="p"&&s[n-2]==":"){
-      if(n>=8) s = s.substring(0,n-7) + "💩 ";
+      if(n>=8) s = s.substring(0,s.length-7) + "💩 ";
       else{
-        s = s.substring(0,n-7) + "💩 ";
+        s = s.substring(0,s.length-7) + "💩 ";
       }
     }
     // code thêm thì làm theo form trên

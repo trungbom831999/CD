@@ -7,6 +7,7 @@ import 'src/data/source/local/user_local_data.dart';
 import 'src/data/source/remote/fire_base_auth.dart';
 import 'src/data/source/remote/fire_base_storage.dart';
 import 'src/data/source/remote/fire_base_user_storage.dart';
+import 'src/view/home/home_page.dart';
 
 class RootPage extends StatefulWidget {
   @override
@@ -16,7 +17,7 @@ class RootPage extends StatefulWidget {
 enum AuthStatus { notSignedIn, signIn, none }
 
 class _RootPage extends State<RootPage> {
-  AuthStatus status = AuthStatus.notSignedIn;
+  AuthStatus status = AuthStatus.none;
 
   @override
   void initState() {
@@ -26,31 +27,25 @@ class _RootPage extends State<RootPage> {
         inject<UserLocalDatasource>(),
         inject<FirUploadPhoto>(),
         inject<FirUserUpload>());
-    if (userRepo.getSaveLogin()) {
-      userRepo.getCurrentUser().then((value) {
-        setState(() {
-          status = value != null ? AuthStatus.signIn : AuthStatus.notSignedIn;
-        });
-      });
-    }else{
+    userRepo.getCurrentUser().then((value) {
+      print(value);
       setState(() {
-        status = AuthStatus.notSignedIn;
+        status = value != null ? AuthStatus.signIn : AuthStatus.notSignedIn;
       });
-    }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     switch (status) {
       case AuthStatus.notSignedIn:
-        return new LoginPage();
+        return  LoginPage();
       case AuthStatus.signIn:
-        return new LoginPage();
-    // return new HomePage();
+        return  HomePage();
       case AuthStatus.none:
-        return new Container();
+        return  Container();
       default:
-        return new Container();
+        return  Container();
     }
   }
 }
