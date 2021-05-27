@@ -13,7 +13,7 @@ import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 import 'package:facebook_app/src/ultils/string_ext.dart';
-
+import 'package:facebook_app/src/view/post/video_player.dart';
 import 'comment_widget.dart';
 import 'edit_post.dart';
 
@@ -399,44 +399,12 @@ class PostWidget extends StatelessWidget {
 
   Visibility buildVideos(BuildContext context) {
     bool isVisible = post.video.url.isNotEmpty;
-    if (isVisible) {
-      controller = VideoPlayerController.network(post.video.url);
-      initializeVideoPlayerFuture = controller.initialize();
-      controller.setLooping(true);
-      FloatingActionButton(
-        onPressed: () {
-          if (controller.value.isPlaying) {
-            controller.pause();
-          } else {
-            controller.play();
-          }
-        },
-        child: Icon(
-          controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-        ),
-      );
-    }
+    if(isVisible)
     return Visibility(
       visible: isVisible,
-      child: FutureBuilder(
-        future: initializeVideoPlayerFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            // If the VideoPlayerController has finished initialization, use
-            // the data it provides to limit the aspect ratio of the video.
-            return AspectRatio(
-              aspectRatio: controller.value.aspectRatio,
-              // Use the VideoPlayer widget to display the video.
-              child: VideoPlayer(controller),
-            );
-          } else {
-            // If the VideoPlayerController is still initializing, show a
-            // loading spinner.
-            return Center(child: CircularProgressIndicator());
-          }
-        },
-      ),
+      child: VideoPlayerWidget(post.video.url),
     );
+    return Visibility(child: Container(), visible: isVisible,);
   }
   Visibility buildMenu(BuildContext context){
     return  Visibility(

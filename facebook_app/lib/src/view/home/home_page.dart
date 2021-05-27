@@ -46,6 +46,7 @@ class _HomePageState extends State<HomePageTmp>
     _tabController = TabController(vsync: this, length: 6);
     // set up listener here
     _controller.addListener(() {
+      print('vi tri ${_controller.position}');
       if (_controller.position.pixels != 0) {
         _provide.isTop = false;
       }

@@ -13,7 +13,9 @@ class UserLocalDatasource {
 
   bool getSaveLogin() {
     var check = _spUtil.getBool(KEY_SAVE_LOGIN);
-    _spUtil.getDynamic(KEY_SAVE_LOGIN);
+    var tmp = _spUtil.getDynamic(KEY_SAVE_LOGIN);
+    print(tmp);
+    print('ketqua $check');
     if (check == null || !check) return false;
     return check;
   }
