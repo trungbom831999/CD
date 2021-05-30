@@ -37,12 +37,13 @@ extension StringX on String {
   String getMyText() {
     String s = this;
     int n = s.length;
-    for(int i=0;i<n-2;i++){
+    for(int i=0;i<n-1;i++){
       // icon buồn
       if(i<n-1&&s[i]==":"&&s[i+1]=="(") {
         s = s.substring(0,i) + "😞"+ s.substring(i+2,s.length);
         i++;
-      } // icon fine
+      }
+      // icon fine
       else if(i<n-1&&s[i]==":"&&s[i+1]==")") {
         s = s.substring(0,i) + "🙂"+ s.substring(i+2,s.length);
         i++;
