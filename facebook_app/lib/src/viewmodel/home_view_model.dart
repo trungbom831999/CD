@@ -173,6 +173,8 @@ class HomeProvide extends BaseProvide {
     notifyListeners();
   }
 
+  bool _isFirst = true;
+
   HomeProvide(this.repository, this.photoRepository, this.userRepository,
       this.friendRepository, this.notificationRepository);
 
@@ -257,7 +259,7 @@ class HomeProvide extends BaseProvide {
 
   Future<void> uploadPost(String content,
       {List<String> pathImages, String pathVideos, Function onDone}) async {
-    // print(pathImages);
+    _isFirst = false;
     Post post = Post(
         "-1",
         content,
@@ -278,8 +280,6 @@ class HomeProvide extends BaseProvide {
           post.images.add(urlPath);
           if (index == pathImages.length - 1) {
             repository.createPost(post, userEntity.id).listen((event) {
-              print("xu ly upload post success o day");
-              print("xu ly upload post success o day");
               loadingImage = false;
               loadingVideo = false;
               onDone();
@@ -340,8 +340,10 @@ class HomeProvide extends BaseProvide {
           Post postRoot = Post.fromMap(element.doc.data(), userPost);
           postRoot.isLiked = checkLiked(postRoot.likes);
           if (element.type == DocumentChangeType.added) {
+            print('add');
             _insertPost(postRoot);
           } else if (element.type == DocumentChangeType.modified) {
+            print('update');
             Post post = postRoot;
             int position = -1;
             position = _listPost.indexWhere(
@@ -353,6 +355,7 @@ class HomeProvide extends BaseProvide {
                   (element) =>
               (element.postId == post.postId) || element.postId == '-1',
             );
+            print('positition $position tmp $positionTmp');
             if (position != -1)
               _listPost[position] = post;
             else if (positionTmp != -1)
@@ -598,15 +601,16 @@ class HomeProvide extends BaseProvide {
 
   _insertPost(Post post) {
     if (isTop) {
-      _listPost.insert(0, post);
+      print(_isFirst);
+      if (_isFirst)
+        _listPost.add(post);
+      else
+        _listPost.insert(0, post);
     } else {
       tmpPosts.add(post);
     }
-    print(listPost.length);
-    print('change roi');
     if (maxPost < 10) {
       listPost.length < 10 ? maxPost = listPost.length : maxPost = 10;
-      print('max post là $maxPost');
     }
     notifyListeners();
   }

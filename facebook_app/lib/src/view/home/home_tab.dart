@@ -5,6 +5,7 @@ import 'package:facebook_app/src/components/write_something_widget.dart';
 import 'package:facebook_app/src/view/post/post_widget.dart';
 import 'package:facebook_app/src/viewmodel/home_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:facebook_app/src/ultils/context_ext.dart';
 
 class HomeTab extends StatelessWidget {
   final HomeProvide value;
@@ -13,13 +14,10 @@ class HomeTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('loading ${value.loading}');
-    print('length ${value.listPost.length} max trong nay ${value.maxPost}');
     return NotificationListener<ScrollNotification>(
       onNotification: (scrollInfo) {
         if (!value.loading &&
             scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
-          print('bottom roi');
           value.isBottom = true;
         }
         return true;
@@ -33,6 +31,9 @@ class HomeTab extends StatelessWidget {
             children: <Widget>[
               WriteSomethingWidget(
                 provide: value,
+                onDone: (){
+                  context.showToast("Tải lên bài viết thành công!");
+                },
               ),
               SeparatorWidget(),
               // OnlineWidget(),

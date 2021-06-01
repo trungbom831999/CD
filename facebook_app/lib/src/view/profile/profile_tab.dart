@@ -21,7 +21,8 @@ class ProfileTab extends PageProvideNode<ProfileProvide> {
 
 class ProfilePageTmp extends StatefulWidget {
   final ProfileProvide provide;
-  ProfilePageTmp(this.provide){
+
+  ProfilePageTmp(this.provide) {
     provide.init();
   }
 
@@ -51,137 +52,82 @@ class _ProfilePageState extends State<ProfilePageTmp>
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(top: 15.0, left: 10, right: 10),
-                  child: new Stack(fit: StackFit.loose, children: <Widget>[
-                    new Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                  child: new Stack(
+                      alignment: AlignmentDirectional.bottomEnd,
                       children: <Widget>[
-                        new GestureDetector(
-                          onTap: () {
-                            showModalBottomSheet(
-                                context: context,
-                                builder: (builder) {
-                                  return new Container(
-                                    // height: 350.0,
-                                    color: Color(0xFF737373),
-                                    child: new Container(
-                                        decoration: new BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: new BorderRadius.only(
-                                                topLeft:
-                                                    const Radius.circular(10.0),
-                                                topRight: const Radius.circular(
-                                                    10.0))),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: <Widget>[
-                                            ListTile(
-                                              leading: Icon(
-                                                Icons.image,
-                                                color: Colors.black,
-                                              ),
-                                              title: Text('Xem ảnh bìa'),
-                                              onTap: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          BlackBackgroundShowImage(value.userEntity.coverImage)),
-                                                );
-                                              },
-                                            ),
-                                            _createTile(
-                                                context,
-                                                'Tải ảnh lên',
-                                                Icon(
-                                                  Icons.upload_sharp,
+                        Container(
+                            width: MediaQuery.of(context).size.width - 30,
+                            height: 200.0,
+                            decoration: new BoxDecoration(
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                        value.userEntity.coverImage),
+                                    fit: BoxFit.cover),
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(10.0),
+                                    topRight: Radius.circular(10.0)))),
+                        GestureDetector(
+                            onTap: () {
+                              showModalBottomSheet(
+                                  context: context,
+                                  builder: (builder) {
+                                    return new Container(
+                                      // height: 350.0,
+                                      color: Color(0xFF737373),
+                                      child: new Container(
+                                          decoration: new BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  new BorderRadius.only(
+                                                      topLeft:
+                                                          const Radius.circular(
+                                                              10.0),
+                                                      topRight:
+                                                          const Radius.circular(
+                                                              10.0))),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: <Widget>[
+                                              ListTile(
+                                                leading: Icon(
+                                                  Icons.image,
                                                   color: Colors.black,
                                                 ),
-                                                _changeCoverImage),
-                                          ],
-                                        )),
-                                  );
-                                });
-                          },
-                          child: Container(
-                              width: MediaQuery.of(context).size.width - 30,
-                              height: 200.0,
-                              decoration: new BoxDecoration(
-                                  image: DecorationImage(
-                                      image: NetworkImage(
-                                          value.userEntity.coverImage),
-                                      fit: BoxFit.cover),
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(10.0),
-                                      topRight: Radius.circular(10.0)))),
-                        )
-                      ],
-                    ),
-                    Padding(
-                        padding: EdgeInsets.only(top: 150.0, left: 320.0),
-                        child: new Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            new GestureDetector(
-                                onTap: () {
-                                  showModalBottomSheet(
-                                      context: context,
-                                      builder: (builder) {
-                                        return new Container(
-                                          // height: 350.0,
-                                          color: Color(0xFF737373),
-                                          child: new Container(
-                                              decoration: new BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius:
-                                                      new BorderRadius.only(
-                                                          topLeft: const Radius
-                                                              .circular(10.0),
-                                                          topRight: const Radius
-                                                              .circular(10.0))),
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: <Widget>[
-                                                  ListTile(
-                                                    leading: Icon(
-                                                      Icons.image,
-                                                      color: Colors.black,
-                                                    ),
-                                                    title: Text('Xem ảnh bìa'),
-                                                    onTap: () {
-                                                      Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                BlackBackgroundShowImage(value.userEntity.coverImage)),
-                                                      );
-                                                    },
+                                                title: Text('Xem ảnh bìa'),
+                                                onTap: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            BlackBackgroundShowImage(
+                                                                value.userEntity
+                                                                    .coverImage)),
+                                                  );
+                                                },
+                                              ),
+                                              _createTile(
+                                                  context,
+                                                  'Tải ảnh lên',
+                                                  Icon(
+                                                    Icons.upload_sharp,
+                                                    color: Colors.black,
                                                   ),
-                                                  _createTile(
-                                                      context,
-                                                      'Tải ảnh lên',
-                                                      Icon(
-                                                        Icons.upload_sharp,
-                                                        color: Colors.black,
-                                                      ),
-                                                      _changeCoverImage),
-                                                ],
-                                              )),
-                                        );
-                                      });
-                                },
-                                child: CircleAvatar(
-                                  backgroundColor: Colors.grey[300],
-                                  radius: 21.0,
-                                  child: new Icon(
-                                    Icons.camera_alt,
-                                    color: Colors.black,
-                                    size: 20.0,
-                                  ),
-                                ))
-                          ],
-                        )),
-                  ]),
+                                                  _changeCoverImage),
+                                            ],
+                                          )),
+                                    );
+                                  });
+                            },
+                            child: CircleAvatar(
+                              backgroundColor:Color(0xa0fafafa) ,
+                              radius: 21.0,
+                              child: new Icon(
+                                Icons.camera_alt,
+                                color: Colors.black,
+                                size: 20.0,
+                              ),
+                            )),
+                      ]),
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -220,13 +166,17 @@ class _ProfilePageState extends State<ProfilePageTmp>
                                                     Icons.image,
                                                     color: Colors.black,
                                                   ),
-                                                  title: Text('Xem ảnh đại diện'),
+                                                  title:
+                                                      Text('Xem ảnh đại diện'),
                                                   onTap: () {
                                                     Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
                                                           builder: (context) =>
-                                                              BlackBackgroundShowImage(value.userEntity.avatar)),
+                                                              BlackBackgroundShowImage(
+                                                                  value
+                                                                      .userEntity
+                                                                      .avatar)),
                                                     );
                                                   },
                                                 ),
@@ -258,8 +208,7 @@ class _ProfilePageState extends State<ProfilePageTmp>
                                           NetworkImage(value.userEntity.avatar),
                                       fit: BoxFit.cover,
                                     ),
-                                  )
-                              ),
+                                  )),
                             ),
                           ],
                         ),
@@ -294,13 +243,16 @@ class _ProfilePageState extends State<ProfilePageTmp>
                                                           Icons.image,
                                                           color: Colors.black,
                                                         ),
-                                                        title: Text('Xem ảnh đại diện'),
+                                                        title: Text(
+                                                            'Xem ảnh đại diện'),
                                                         onTap: () {
                                                           Navigator.push(
                                                             context,
                                                             MaterialPageRoute(
                                                                 builder: (context) =>
-                                                                    BlackBackgroundShowImage(value.userEntity.avatar)),
+                                                                    BlackBackgroundShowImage(value
+                                                                        .userEntity
+                                                                        .avatar)),
                                                           );
                                                         },
                                                       ),
@@ -318,7 +270,7 @@ class _ProfilePageState extends State<ProfilePageTmp>
                                           });
                                     },
                                     child: CircleAvatar(
-                                      backgroundColor: Colors.grey[300],
+                                      backgroundColor:Color(0xa0fafafa) ,
                                       radius: 21.0,
                                       child: new Icon(
                                         Icons.camera_alt,
@@ -496,8 +448,8 @@ class _ProfilePageState extends State<ProfilePageTmp>
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ListUserFriend(
-                             value.userEntity)),
+                          builder: (context) =>
+                              ListUserFriend(value.userEntity)),
                     );
                   },
                   child: Container(
@@ -522,14 +474,17 @@ class _ProfilePageState extends State<ProfilePageTmp>
           WriteSomethingWidget(
             provide: value,
           ),
-          ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: value.userListPost.length,
-              itemBuilder: (context, index) {
-                return PostWidgetProfile(
-                    post: value.userListPost[index], provide: value);
-              }),
+          for (int i = 0; i < value.userListPost.length; i++)
+          PostWidgetProfile(
+          post: value.userListPost[i], provide: value),
+          // ListView.builder(
+          //     shrinkWrap: true,
+          //     physics: NeverScrollableScrollPhysics(),
+          //     itemCount: value.userListPost.length,
+          //     itemBuilder: (context, index) {
+          //       print('post user ${value.userListPost.length}');
+          //       return
+          //     }),
         ],
       );
     }));
