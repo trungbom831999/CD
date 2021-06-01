@@ -199,8 +199,7 @@ class _ProfileFriend extends State<ProfilePageTmp>
                         Container(
                           width: 150.0,
                           child: Text(
-                            // getFriendChung(),
-                            " ",
+                            getFriendChung(),
                             style: TextStyle(
                                 color: Colors.grey.shade700, fontSize: 16),
                             overflow: TextOverflow.ellipsis,

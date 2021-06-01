@@ -311,5 +311,5 @@ class _ListUserFriendState extends State<ListUserFriend2> {
 String getFriendChung() {
   var rng = new Random();
   // int a = 1 + rng.nextInt(10);
-  return "0 bạn chung";
+  return "1 bạn chung";
 }
