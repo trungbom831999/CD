@@ -199,8 +199,7 @@ class _ProfileFriend extends State<ProfilePageTmp>
                         Container(
                           width: 150.0,
                           child: Text(
-                            // getFriendChung(),
-                            " ",
+                            getFriendChung(),
                             style: TextStyle(
                                 color: Colors.grey.shade700, fontSize: 16),
                             overflow: TextOverflow.ellipsis,
@@ -346,5 +345,5 @@ class _ProfileFriend extends State<ProfilePageTmp>
 String getFriendChung() {
   var rng = new Random();
   // int a = 1 + rng.nextInt(10);
-  return "0 bạn chung";
+  return "1 bạn chung";
 }
