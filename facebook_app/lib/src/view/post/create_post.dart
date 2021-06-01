@@ -13,8 +13,8 @@ import 'package:facebook_app/src/view/post/video_player.dart';
 
 class CreatePostWidget extends StatefulWidget {
   final HomeProvide provide;
-
-  CreatePostWidget({this.provide});
+  Function onDone;
+  CreatePostWidget({this.provide, this.onDone});
 
   @override
   State<StatefulWidget> createState() {
@@ -76,7 +76,7 @@ class _CreatePostState extends State<CreatePostWidget> {
                           pathImages: pathImages,
                           pathVideos: pathVideo,
                           onDone: () {
-                            context.showToast("Tải lên bài viết thành công!");
+                             widget.onDone();
                           });
                     },
                     child: Text(

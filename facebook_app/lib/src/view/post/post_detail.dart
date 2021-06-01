@@ -1,6 +1,7 @@
 import 'package:facebook_app/src/components/black_background_image.dart';
 import 'package:facebook_app/src/components/photo_grid.dart';
 import 'package:facebook_app/src/data/model/post.dart';
+import 'package:facebook_app/src/view/post/video_player.dart';
 import 'package:facebook_app/src/viewmodel/home_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -35,21 +36,20 @@ class _PostDetail extends State<PostDetail> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          iconTheme: IconThemeData(color: Colors.blue),
-          title: Text(
-            'Bài viết',
-            style: TextStyle(fontSize: 20, color: Colors.black),
-          ),
-          elevation: 0,
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(color: Colors.blue),
+        title: Text(
+          'Bài viết',
+          style: TextStyle(fontSize: 20, color: Colors.black),
         ),
-        body: Container(
+        elevation: 0,
+      ),
+      body: Container(
           color: Colors.white,
           height: MediaQuery.of(context).size.height * 0.97,
-          child: Column(
+          child: ListView(
             children: <Widget>[
               Container(
                 padding: EdgeInsets.all(15),
@@ -66,9 +66,13 @@ class _PostDetail extends State<PostDetail> {
                       children: <Widget>[
                         Row(
                           children: [
-                            Text(post.owner.firstName + ' ' + post.owner.lastName,
+                            Text(
+                                post.owner.firstName +
+                                    ' ' +
+                                    post.owner.lastName,
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 17.0)),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 17.0)),
                             SizedBox(
                               width: 5.0,
                             ),
@@ -106,6 +110,7 @@ class _PostDetail extends State<PostDetail> {
                   )),
               SizedBox(height: 10.0),
               buildImages(context),
+              buildVideos(context),
               SizedBox(height: 10.0),
               Container(
                 padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
@@ -129,25 +134,19 @@ class _PostDetail extends State<PostDetail> {
                 ),
               ),
               Divider(height: 10.0),
-              SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.6,
-                      child: ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          itemCount: post.comments.length,
-                          itemBuilder: (context, index) {
-                            return CommentWidget(
-                              comment:
-                                  post.comments[post.comments.length - index - 1],
-                              provide: provide,
-                            );
-                          }),
-                    ),
-                  ],
-                ),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.6,
+                child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount: post.comments.length,
+                    itemBuilder: (context, index) {
+                      return CommentWidget(
+                        comment:
+                            post.comments[post.comments.length - index - 1],
+                        provide: provide,
+                      );
+                    }),
               ),
               Container(
                 decoration: BoxDecoration(
@@ -225,8 +224,20 @@ class _PostDetail extends State<PostDetail> {
               ),
             ],
           ),
-        ),
       ),
+    );
+  }
+
+  Visibility buildVideos(BuildContext context) {
+    bool isVisible = post.video.url.isNotEmpty;
+    if (isVisible)
+      return Visibility(
+        visible: isVisible,
+        child: VideoPlayerWidget(post.video.url),
+      );
+    return Visibility(
+      child: Container(),
+      visible: isVisible,
     );
   }
 

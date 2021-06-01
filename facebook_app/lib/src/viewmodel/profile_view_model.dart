@@ -35,9 +35,9 @@ class ProfileProvide extends HomeProvide {
     // getNotFriends(userEntity);
     getFriendsRequest(UserRepositoryImpl.currentUser);
     getFriendsWaitConfirm(UserRepositoryImpl.currentUser);
-    getUserListPost(userEntity.id);
-    getUserPhotos(userEntity.id);
-    getUserVideos(userEntity.id);
+    getUserListPost(UserRepositoryImpl.currentUser.id);
+    // getUserPhotos(userEntity.id);
+    // getUserVideos(userEntity.id);
   }
 
   ProfileProvide(
@@ -51,6 +51,7 @@ class ProfileProvide extends HomeProvide {
 
   getUserListPost(String userId) {
     _userListPost.clear();
+
     return repository.getUserListPost(userId).listen((event) async {
       event.docChanges.forEach((element) async {
         DocumentReference documentReference = element.doc.data()['owner'];
@@ -59,6 +60,7 @@ class ProfileProvide extends HomeProvide {
           Post postRoot = Post.fromMap(element.doc.data(), userPost);
           postRoot.isLiked = checkLiked(postRoot.likes);
           if (element.type == DocumentChangeType.added) {
+            // print(postRoot);
             _userListPost.insert(0, postRoot);
           } else if (element.type == DocumentChangeType.modified) {
             Post post = postRoot;
@@ -77,10 +79,8 @@ class ProfileProvide extends HomeProvide {
                 .removeWhere((element) => element.postId == post.postId);
           }
         });
-        if (event.docChanges.length != 0) {
-          notifyListeners();
-        }
       });
+      notifyListeners();
     }, onError: (e) => {print("xu ly fail o day")});
   }
 
