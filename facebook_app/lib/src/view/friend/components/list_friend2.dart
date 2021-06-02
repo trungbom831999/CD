@@ -145,18 +145,18 @@ class _ListUserFriendState extends State<ListUserFriend2> {
                 children: <Widget>[
                   GestureDetector(
                     onTap: () {
-                      // if (friend.id == UserRepositoryImpl.currentUser.id) {
-                      //   Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(builder: (context) => ProfileMe()),
-                      //   );
-                      // } else {
-                      //   Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => ProfileFriend(friend)),
-                      //   );
-                      // }
+                      if (friend.id == UserRepositoryImpl.currentUser.id) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => ProfileMe()),
+                        );
+                      } else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProfileFriend(friend)),
+                        );
+                      }
                     },
                     child: Text(
                       friend.firstName + " " + friend.lastName,
@@ -225,24 +225,24 @@ class _ListUserFriendState extends State<ListUserFriend2> {
                                                         " " +
                                                         friend.lastName),
                                                 onTap: () {
-                                                  // if (friend.id ==
-                                                  //     UserRepositoryImpl
-                                                  //         .currentUser.id) {
-                                                  //   Navigator.push(
-                                                  //     context,
-                                                  //     MaterialPageRoute(
-                                                  //         builder: (context) =>
-                                                  //             ProfileMe()),
-                                                  //   );
-                                                  // } else {
-                                                  //   Navigator.push(
-                                                  //     context,
-                                                  //     MaterialPageRoute(
-                                                  //         builder: (context) =>
-                                                  //             ProfileFriend(friend
-                                                  //                 )),
-                                                  //   );
-                                                  // }
+                                                  if (friend.id ==
+                                                      UserRepositoryImpl
+                                                          .currentUser.id) {
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              ProfileMe()),
+                                                    );
+                                                  } else {
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              ProfileFriend(friend
+                                                                  )),
+                                                    );
+                                                  }
                                                 },
                                               ),
                                               // _createTile(
