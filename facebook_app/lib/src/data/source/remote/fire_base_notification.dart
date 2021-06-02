@@ -9,7 +9,8 @@ import 'package:facebook_app/src/data/model/notification/like_post_notification.
 import 'package:facebook_app/src/data/model/notification/request_friend_notification.dart';
 import 'package:facebook_app/src/data/model/post.dart';
 import 'package:facebook_app/src/data/model/user.dart';
-
+import 'package:facebook_app/src/data/repository/user_repository_impl.dart';
+import 'package:facebook_app/src/ultils/app_icons.dart';
 
 class FirNotification {
   final FirebaseFirestore _firestore;
@@ -18,19 +19,23 @@ class FirNotification {
 
   Future<void> createNotificationFriend(
       UserEntity userFirst, String idUserSecond) {
+    String idReceivers = UserRepositoryImpl.currentUser.id == userFirst.id
+        ? idUserSecond
+        : userFirst.id;
     var notification = NotificationAcceptFriend(
-      _getRandString(6),
-        userFirst, DateTime.now().toString(), 0, [idUserSecond]);
-    return _firestore
-        .collection('notification')
-        .add(notification.toMap(_firestore.doc('users/' + userFirst.id)));
+        _getRandString(6),
+        UserRepositoryImpl.currentUser,
+        DateTime.now().toString(),
+        0,
+        [idReceivers]);
+    return _firestore.collection('notification').add(notification
+        .toMap(_firestore.doc('users/' + UserRepositoryImpl.currentUser.id)));
   }
 
   Future<void> createNotificationRequestFriend(
       UserEntity userFirst, String idUserSecond) {
-    var notification = NotificationRequestFriend(
-        _getRandString(6),
-        userFirst, DateTime.now().toString(), 0, [idUserSecond]);
+    var notification = NotificationRequestFriend(_getRandString(6), userFirst,
+        DateTime.now().toString(), 0, [idUserSecond]);
     return _firestore
         .collection('notification')
         .add(notification.toMap(_firestore.doc('users/' + userFirst.id)));
@@ -44,7 +49,8 @@ class FirNotification {
     var now = DateTime.now().toString();
     var receiver = post.comments.map((e) => e.user.id).toList();
     receiver.add(post.owner.id);
-    var notification = NotificationLikePost(_getRandString(6),post, userFirst, now, 0, receiver);
+    var notification = NotificationLikePost(
+        _getRandString(6), post, userFirst, now, 0, receiver);
     if (ref.exists) {
       future = _firestore.collection('notification').doc(post.postId).update({
         "first_user": _firestore.doc('users/' + userFirst.id),
@@ -79,7 +85,10 @@ class FirNotification {
         await _firestore.collection('notification').doc(post.postId).get();
     Future<void> future = null;
     var now = DateTime.now().toString();
-    var receiver = post.comments.map((e) => e.user.id);
+    print('vao update thong bao comment');
+    List<String> receiver = post.comments.map((e) => e.user.id);
+    if (!receiver.contains(post.owner.id)) receiver.add(post.owner.id);
+    print(receiver.toString());
     var notification = NotificationCommentPost(
         _getRandString(6), post, comment.user, now, 0, receiver);
     if (ref.exists) {
