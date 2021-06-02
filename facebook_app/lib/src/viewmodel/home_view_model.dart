@@ -336,7 +336,7 @@ class HomeProvide extends BaseProvide {
       event.docChanges.forEach((element) async {
         DocumentReference documentReference = element.doc.data()['owner'];
         documentReference.get().then((value) {
-          UserEntity userPost = UserEntity.fromJson(value.data());
+          UserEntity userPost = UserEntity. fromJson(value.data());
           Post postRoot = Post.fromMap(element.doc.data(), userPost);
           postRoot.isLiked = checkLiked(postRoot.likes);
           if (element.type == DocumentChangeType.added) {

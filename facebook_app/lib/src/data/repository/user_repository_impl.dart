@@ -17,7 +17,8 @@ class UserRepositoryImpl implements UserRepository {
   static UserEntity currentUser;
 
   UserRepositoryImpl(
-      this._firAuth, this._localDatasource, this.firPhoto, this.firUserUpload);
+      this._firAuth, this._localDatasource, this.firPhoto, this.firUserUpload){
+  }
 
   @override
   void signUp(

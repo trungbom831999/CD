@@ -7,6 +7,35 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:209348760460:android:dc0893699f9ad5c17b3ca9",
+        "android_client_info": {
+          "package_name": "com.app.fb"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "209348760460-krojc8gob1vof7tr0h0luus3ij4dv6jh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_-1YsJZn3yiMZNVsn3VvlZRDMBjZ-u9s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "209348760460-krojc8gob1vof7tr0h0luus3ij4dv6jh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:209348760460:android:2571e2dfa72603087b3ca9",
         "android_client_info": {
           "package_name": "com.cd.facebook_app"
