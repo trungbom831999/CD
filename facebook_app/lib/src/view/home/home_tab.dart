@@ -2,6 +2,7 @@ import 'package:facebook_app/src/components/online_widget.dart';
 import 'package:facebook_app/src/components/separator_widget.dart';
 import 'package:facebook_app/src/components/stories_widget.dart';
 import 'package:facebook_app/src/components/write_something_widget.dart';
+import 'package:facebook_app/src/data/repository/user_repository_impl.dart';
 import 'package:facebook_app/src/view/post/post_widget.dart';
 import 'package:facebook_app/src/viewmodel/home_view_model.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,8 @@ class HomeTab extends StatelessWidget {
       },
       child: RefreshIndicator(
         onRefresh: () async {
-          value.getListPost();
+         await value.init();
+         UserRepositoryImpl.currentUser = value.userEntity;
         },
         child: SingleChildScrollView(
           child: Column(
