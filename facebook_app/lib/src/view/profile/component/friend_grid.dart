@@ -33,15 +33,17 @@ class _FriendGridState extends State<FriendGrid> {
   @override
   Widget build(BuildContext context) {
     var images = buildFriends();
-    return GridView(
-      shrinkWrap: true, // new line
-      physics: NeverScrollableScrollPhysics(),
-      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-        maxCrossAxisExtent: 200,
-        crossAxisSpacing: 3,
-        mainAxisSpacing: 3,
+    return Center(
+      child: GridView(
+        shrinkWrap: true, // new line
+        physics: NeverScrollableScrollPhysics(),
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: 200,
+          crossAxisSpacing: 2,
+          mainAxisSpacing: 2,
+        ),
+        children: images,
       ),
-      children: images,
     );
   }
 
@@ -96,7 +98,7 @@ class _FriendGridState extends State<FriendGrid> {
   Container buildFriend(Friend friend) {
     return Container(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           GestureDetector(
             onTap: () {

@@ -439,10 +439,12 @@ class _ProfilePageState extends State<ProfilePageTmp>
                         style: TextStyle(fontSize: 16.0, color: Colors.blue)),
                   ],
                 ),
-                FriendGrid(
-                    friends: value.friends,
-                    onImageClicked: null,
-                    onExpandClicked: null),
+                Center(
+                  child: FriendGrid(
+                      friends: value.friends,
+                      onImageClicked: null,
+                      onExpandClicked: null),
+                ),
                 GestureDetector(
                   onTap: () {
                     Navigator.push(
