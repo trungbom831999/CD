@@ -318,18 +318,19 @@ class _ProfileFriend extends State<ProfilePageTmp>
                           ],
                         ),
                         // Future.delayed(const Duration(milliseconds: 10), checkFriend("123"))
-
-                        FriendGrid(
-                            friends: value.friends,
-                            onImageClicked: null,
-                            onExpandClicked: null),
+                        Center(
+                          child: FriendGrid(
+                              friends: value.friends,
+                              onImageClicked: null,
+                              onExpandClicked: null),
+                        ),
                         GestureDetector(
                           onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ListUserFriend(
-                                      value.userEntity)),
+                                  builder: (context) =>
+                                      ListUserFriend(value.userEntity)),
                             );
                           },
                           child: Container(
