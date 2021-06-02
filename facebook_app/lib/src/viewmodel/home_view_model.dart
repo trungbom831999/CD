@@ -609,6 +609,7 @@ class HomeProvide extends BaseProvide {
     } else {
       tmpPosts.add(post);
     }
+    print('vao thay doi roi');
     if (maxPost < 10) {
       listPost.length < 10 ? maxPost = listPost.length : maxPost = 10;
     }
