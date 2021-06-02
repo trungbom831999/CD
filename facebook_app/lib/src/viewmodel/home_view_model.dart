@@ -260,16 +260,8 @@ class HomeProvide extends BaseProvide {
   Future<void> uploadPost(String content,
       {List<String> pathImages, String pathVideos, Function onDone}) async {
     _isFirst = false;
-    Post post = Post(
-        "-1",
-        content,
-        DateTime.now().toString(),
-        DateTime.now().toString(),
-        [],
-        [],
-        [],
-        Video.origin(),
-        userEntity);
+    Post post = Post("-1", content, DateTime.now().toString(),
+        DateTime.now().toString(), [], [], [], Video.origin(), userEntity);
     if (pathImages != null && pathImages.isNotEmpty) {
       loadingImage = true;
       _progressPhoto = new List(pathImages.length);
@@ -336,7 +328,7 @@ class HomeProvide extends BaseProvide {
       event.docChanges.forEach((element) async {
         DocumentReference documentReference = element.doc.data()['owner'];
         documentReference.get().then((value) {
-          UserEntity userPost = UserEntity. fromJson(value.data());
+          UserEntity userPost = UserEntity.fromJson(value.data());
           Post postRoot = Post.fromMap(element.doc.data(), userPost);
           postRoot.isLiked = checkLiked(postRoot.likes);
           if (element.type == DocumentChangeType.added) {
@@ -347,13 +339,13 @@ class HomeProvide extends BaseProvide {
             Post post = postRoot;
             int position = -1;
             position = _listPost.indexWhere(
-                  (element) =>
-              (element.postId == post.postId) || element.postId == '-1',
+              (element) =>
+                  (element.postId == post.postId) || element.postId == '-1',
             );
             int positionTmp = -1;
             positionTmp = tmpPosts.indexWhere(
-                  (element) =>
-              (element.postId == post.postId) || element.postId == '-1',
+              (element) =>
+                  (element.postId == post.postId) || element.postId == '-1',
             );
             print('positition $position tmp $positionTmp');
             if (position != -1)
@@ -391,7 +383,7 @@ class HomeProvide extends BaseProvide {
             // print('modified');
             int position = -1;
             position = _friends.indexWhere(
-                    (element) => (element.userSecond == friend.userSecond));
+                (element) => (element.userSecond == friend.userSecond));
             if (friend.status == FriendStatus.none) {
               _friends.remove(position);
             }
@@ -402,7 +394,7 @@ class HomeProvide extends BaseProvide {
             notifyListeners();
           } else if (element.type == DocumentChangeType.removed) {
             _friends.removeWhere(
-                    (element) => element.userSecond == friend.userSecond);
+                (element) => element.userSecond == friend.userSecond);
             notifyListeners();
           }
         });
@@ -415,7 +407,7 @@ class HomeProvide extends BaseProvide {
       friendRepository.getRequestFriends(entity.id).listen((event) async {
         event.docChanges.forEach((element) async {
           DocumentReference documentReference =
-          element.doc.data()['second_user'];
+              element.doc.data()['second_user'];
           await documentReference.get().then((value) {
             UserEntity second = UserEntity.fromJson(value.data());
             Friend friend = Friend.fromJson(element.doc.data(), entity, second);
@@ -426,7 +418,7 @@ class HomeProvide extends BaseProvide {
               print('removed');
               int position = -1;
               position = _friendRequest.indexWhere(
-                      (element) => (element.userSecond == friend.userSecond));
+                  (element) => (element.userSecond == friend.userSecond));
               if (friend.status == FriendStatus.none) {
                 _friendRequest.remove(position);
               }
@@ -438,7 +430,7 @@ class HomeProvide extends BaseProvide {
             } else if (element.type == DocumentChangeType.removed) {
               print('removed');
               _friendRequest.removeWhere(
-                      (element) => element.userFirst.id == friend.userFirst.id);
+                  (element) => element.userFirst.id == friend.userFirst.id);
               notifyListeners();
             }
           });
@@ -451,18 +443,18 @@ class HomeProvide extends BaseProvide {
         print('fiends cua ${entity.id}');
         event.docChanges.forEach((element) async {
           DocumentReference documentReference =
-          element.doc.data()['second_user'];
+              element.doc.data()['second_user'];
           await documentReference.get().then((value) {
             UserEntity secondUser = UserEntity.fromJson(value.data());
             Friend friend =
-            Friend.fromJson(element.doc.data(), entity, secondUser);
+                Friend.fromJson(element.doc.data(), entity, secondUser);
             if (element.type == DocumentChangeType.added) {
               _friendWaitConfirm.insert(0, friend);
               notifyListeners();
             } else if (element.type == DocumentChangeType.modified) {
               int position = -1;
               position = _friendWaitConfirm.indexWhere(
-                      (element) => (element.userSecond == friend.userSecond));
+                  (element) => (element.userSecond == friend.userSecond));
               if (friend.status == FriendStatus.none) {
                 _friendWaitConfirm.remove(position);
               }
@@ -473,7 +465,7 @@ class HomeProvide extends BaseProvide {
               notifyListeners();
             } else if (element.type == DocumentChangeType.removed) {
               _friendWaitConfirm.removeWhere(
-                      (element) => element.userSecond == friend.userSecond);
+                  (element) => element.userSecond == friend.userSecond);
               notifyListeners();
             }
             print('leng wait ${_friendWaitConfirm.length}');
@@ -484,100 +476,99 @@ class HomeProvide extends BaseProvide {
   getNotifications() {
     print('vao notification');
     notificationRepository.getNotifications(userEntity.id).listen(
-            (event) async {
-          event.docChanges.forEach((element) async {
-            DocumentReference documentReference = element.doc
-                .data()['first_user'];
-            await documentReference.get().then((value) async {
-              UserEntity user = UserEntity.fromJson(value.data());
-              // print(user.firstName);
-              NotificationApp notification;
-              var map = element.doc.data();
-              NotificationType type =
+        (event) async {
+      event.docChanges.forEach((element) async {
+        DocumentReference documentReference = element.doc.data()['first_user'];
+        await documentReference.get().then((value) async {
+          UserEntity user = UserEntity.fromJson(value.data());
+          // print(user.firstName);
+          NotificationApp notification;
+          var map = element.doc.data();
+          NotificationType type =
               NotificationType.values[int.parse(map['type'].toString())];
-              switch (type) {
-                case NotificationType.acceptFriend:
-                  {
-                    notification = NotificationAcceptFriend(
-                        map['id'],
-                        user,
-                        map['update_time'],
-                        map['others'],
-                        (map['receivers'] as List)
-                            .map((e) => e.toString())
-                            .toList());
-                    _insertNotification(element.type, notification);
-                    notifyListeners();
-                  }
-                  break;
-                case NotificationType.requestFriend:
-                  {
-                    notification = NotificationRequestFriend(
-                        map['id'],
-                        user,
-                        map['update_time'],
-                        map['others'],
-                        (map['receivers'] as List)
-                            .map((e) => e.toString())
-                            .toList());
-                    _insertNotification(element.type, notification);
-                    notifyListeners();
-                  }
-                  break;
-                case NotificationType.likePost:
-                  {
-                    DocumentReference documentReference =
-                    element.doc.data()['post'];
-                    documentReference.get().then((postMap) {
-                      DocumentReference documentReferenceUser =
-                      postMap.data()['owner'];
-                      documentReferenceUser.get().then((value) {
-                        UserEntity userPost = UserEntity.fromJson(value.data());
-                        Post post = Post.fromMap(postMap.data(), userPost);
-                        notification = NotificationLikePost(
-                            map['id'],
-                            post,
-                            user,
-                            map['update_time'],
-                            map['others'],
-                            (map['receivers'] as List)
-                                .map((e) => e.toString())
-                                .toList());
-                        _insertNotification(element.type, notification);
-                        notifyListeners();
-                      });
-                    });
-                  }
-                  break;
-                case NotificationType.commentPost:
-                  {
-                    DocumentReference documentReference =
-                    element.doc.data()['post'];
-                    documentReference.get().then((postMap) {
-                      DocumentReference documentReferenceUser =
-                      postMap.data()['owner'];
-                      documentReferenceUser.get().then((value) {
-                        UserEntity userPost = UserEntity.fromJson(value.data());
-                        Post post = Post.fromMap(postMap.data(), userPost);
-                        notification = NotificationCommentPost(
-                            map['id'],
-                            post,
-                            user,
-                            map['update_time'],
-                            map['others'],
-                            (map['receivers'] as List)
-                                .map((e) => e.toString())
-                                .toList());
-                        _insertNotification(element.type, notification);
-                        notifyListeners();
-                      });
-                    });
-                  }
-                  break;
+          switch (type) {
+            case NotificationType.acceptFriend:
+              {
+                notification = NotificationAcceptFriend(
+                    map['id'],
+                    user,
+                    map['update_time'],
+                    map['others'],
+                    (map['receivers'] as List)
+                        .map((e) => e.toString())
+                        .toList());
+                _insertNotification(element.type, notification);
+                notifyListeners();
               }
-            });
-          });
-        }, onError: (e) => {print("xu ly fail o day")});
+              break;
+            case NotificationType.requestFriend:
+              {
+                notification = NotificationRequestFriend(
+                    map['id'],
+                    user,
+                    map['update_time'],
+                    map['others'],
+                    (map['receivers'] as List)
+                        .map((e) => e.toString())
+                        .toList());
+                _insertNotification(element.type, notification);
+                notifyListeners();
+              }
+              break;
+            case NotificationType.likePost:
+              {
+                DocumentReference documentReference =
+                    element.doc.data()['post'];
+                documentReference.get().then((postMap) {
+                  DocumentReference documentReferenceUser =
+                      postMap.data()['owner'];
+                  documentReferenceUser.get().then((value) {
+                    UserEntity userPost = UserEntity.fromJson(value.data());
+                    Post post = Post.fromMap(postMap.data(), userPost);
+                    notification = NotificationLikePost(
+                        map['id'],
+                        post,
+                        user,
+                        map['update_time'],
+                        map['others'],
+                        (map['receivers'] as List)
+                            .map((e) => e.toString())
+                            .toList());
+                    _insertNotification(element.type, notification);
+                    notifyListeners();
+                  });
+                });
+              }
+              break;
+            case NotificationType.commentPost:
+              {
+                DocumentReference documentReference =
+                    element.doc.data()['post'];
+                documentReference.get().then((postMap) {
+                  DocumentReference documentReferenceUser =
+                      postMap.data()['owner'];
+                  documentReferenceUser.get().then((value) {
+                    UserEntity userPost = UserEntity.fromJson(value.data());
+                    Post post = Post.fromMap(postMap.data(), userPost);
+                    notification = NotificationCommentPost(
+                        map['id'],
+                        post,
+                        user,
+                        map['update_time'],
+                        map['others'],
+                        (map['receivers'] as List)
+                            .map((e) => e.toString())
+                            .toList());
+                    _insertNotification(element.type, notification);
+                    notifyListeners();
+                  });
+                });
+              }
+              break;
+          }
+        });
+      });
+    }, onError: (e) => {print("xu ly fail o day")});
   }
 
   void updateLike(Post post) {
@@ -600,25 +591,33 @@ class HomeProvide extends BaseProvide {
   }
 
   _insertPost(Post post) {
-    if (isTop) {
-      print(_isFirst);
-      if (_isFirst)
-        _listPost.add(post);
-      else
-        _listPost.insert(0, post);
-    } else {
-      tmpPosts.add(post);
+    if (_listPost.firstWhere((element) => element.postId == post.postId,
+            orElse: () => null) ==
+        null) {
+      if (isTop) {
+        print(_isFirst);
+        if (_isFirst)
+          _listPost.add(post);
+        else
+          _listPost.insert(0, post);
+      } else {
+        tmpPosts.add(post);
+      }
+      print('vao thay doi roi');
+      if (maxPost < 10) {
+        listPost.length < 10 ? maxPost = listPost.length : maxPost = 10;
+      }
+      notifyListeners();
     }
-    print('vao thay doi roi');
-    if (maxPost < 10) {
-      listPost.length < 10 ? maxPost = listPost.length : maxPost = 10;
-    }
-    notifyListeners();
   }
 
   _insertNotification(DocumentChangeType type, NotificationApp notification) {
     if (type == DocumentChangeType.added) {
-      _notifications.insert(0, notification);
+      if (_notifications.firstWhere((element) => element.id == notification.id,
+          orElse: () => null) ==
+          null){
+        _notifications.insert(0, notification);
+      }
     } else if (type == DocumentChangeType.modified) {
       int position = -1;
       position = _notifications
@@ -633,7 +632,7 @@ class HomeProvide extends BaseProvide {
   bool checkLiked(List<UserEntity> users) {
     if (users.length == 0) return false;
     return users.firstWhere((element) => element.id == userEntity.id,
-        orElse: () => null) !=
+            orElse: () => null) !=
         null;
   }
 
